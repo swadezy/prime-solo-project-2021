@@ -6,30 +6,25 @@ function LockEdit() {
   const page = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const lock = useSelector((store) => store.locks)[0];
+  const lock = useSelector((store) => store.details);
   const brands = useSelector((store) => store.brands);
   const types = useSelector((store) => store.types);
 
-  // not working on refresh still...
-  const [lockEdit, setLockEdit] = useState({
-    id: lock?.id,
-    nickname: lock?.nickname,
-    brand_id: lock?.brand_id,
-    type_id: lock?.type_id,
-    num_pins: lock?.num_pins,
-    img_url: lock?.img_url,
-    notes: lock?.notes,
-  });
-
   useEffect(() => {
-    dispatch({ type: 'FETCH_LOCK_DETAIL', payload: page.id });
+    dispatch({ type: 'FETCH_DETAILS', payload: page.id });
     dispatch({ type: 'FETCH_BRANDS' });
     dispatch({ type: 'FETCH_TYPES' });
   }, []);
 
   const handleEdit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'UPDATE_LOCK', payload: lockEdit });
+    dispatch({ type: 'UPDATE_LOCK', payload: lock });
+    dispatch({ type: 'CLEAR_LOCK' });
+    history.push({ pathname: `/details/${lock.id}` });
+  };
+
+  const routeBack = () => {
+    dispatch({ type: 'CLEAR_LOCK' });
     history.push({ pathname: `/details/${lock.id}` });
   };
 
@@ -40,18 +35,24 @@ function LockEdit() {
         <form onSubmit={handleEdit}>
           <span>Nickname -</span>
           <input
-            value={lockEdit?.nickname}
+            value={lock.nickname}
             onChange={(event) =>
-              setLockEdit({ ...lockEdit, nickname: event.target.value })
+              dispatch({
+                type: 'SET_LOCK',
+                payload: { ...lock, nickname: event.target.value },
+              })
             }
           />
           <br></br>
 
           <span>Brand -</span>
           <select
-            value={lockEdit.brand_id}
+            value={lock.brand_id}
             onChange={(event) =>
-              setLockEdit({ ...lockEdit, brand_id: event.target.value })
+              dispatch({
+                type: 'SET_LOCK',
+                payload: { ...lock, brand_id: event.target.value },
+              })
             }
           >
             {brands &&
@@ -65,9 +66,12 @@ function LockEdit() {
           <br></br>
           <span>Type -</span>
           <select
-            value={lockEdit.type_id}
+            value={lock.type_id}
             onChange={(event) =>
-              setLockEdit({ ...lockEdit, type_id: event.target.value })
+              dispatch({
+                type: 'SET_LOCK',
+                payload: { ...lock, type_id: event.target.value },
+              })
             }
           >
             {types &&
@@ -81,36 +85,39 @@ function LockEdit() {
           <br></br>
           <span>Number of Pins -</span>
           <input
-            value={lockEdit.num_pins}
+            value={lock.num_pins}
             onChange={(event) =>
-              setLockEdit({ ...lockEdit, num_pins: event.target.value })
+              dispatch({
+                type: 'SET_LOCK',
+                payload: { ...lock, num_pins: event.target.value },
+              })
             }
           />
           <br></br>
           <span>Image -</span>
           <input
-            value={lockEdit.img_url}
+            value={lock.img_url}
             onChange={(event) =>
-              setLockEdit({ ...lockEdit, img_url: event.target.value })
+              dispatch({
+                type: 'SET_LOCK',
+                payload: { ...lock, img_url: event.target.value },
+              })
             }
           />
           <br></br>
           <span>Notes -</span>
           <input
-            value={lockEdit.notes}
+            value={lock.notes}
             onChange={(event) =>
-              setLockEdit({ ...lockEdit, notes: event.target.value })
+              dispatch({
+                type: 'SET_LOCK',
+                payload: { ...lock, notes: event.target.value },
+              })
             }
           />
           <br></br>
           <button type="submit">Submit</button>
-          <button
-            onClick={() => {
-              history.push({ pathname: `/details/${lock.id}` });
-            }}
-          >
-            Cancel
-          </button>
+          <button onClick={routeBack}>Cancel</button>
         </form>
       )}
     </div>
