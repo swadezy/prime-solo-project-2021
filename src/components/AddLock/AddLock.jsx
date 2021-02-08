@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function AddLock() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [newLock, setNewLock] = useState({
     nickname: '',
     brand_id: 0,
@@ -106,19 +108,18 @@ function AddLock() {
             setNewLock({ ...newLock, notes: event.target.value })
           }
         />
+        <br></br>
         <button type="submit">Submit</button>
+        <button
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          Back
+        </button>
       </form>
     </div>
   );
 }
-
-// "id" SERIAL PRIMARY KEY,
-// "nickname" VARCHAR(50) NOT NULL,
-// "user_id" INT REFERENCES "users" NOT NULL,
-// "brand_id" INT REFERENCES "brands",
-// "type_id" INT REFERENCES "types",
-// "num_pins" INT,
-// "img_url" VARCHAR(255),
-// "notes" VARCHAR(255)
 
 export default AddLock;

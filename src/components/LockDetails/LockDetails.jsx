@@ -6,7 +6,7 @@ function LockDetails() {
   const page = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const lock = useSelector((store) => store.locks)[0];
+  const lock = useSelector((store) => store?.locks)[0];
 
   useEffect(() => {
     dispatch({ type: 'FETCH_LOCK_DETAIL', payload: page.id });
@@ -15,7 +15,7 @@ function LockDetails() {
   const handleDelete = () => {
     // swal alert?
     console.log('clicked delete for lock', page.id);
-    dispatch({ type: 'DELETE_LOCK', payload: page.id })
+    dispatch({ type: 'DELETE_LOCK', payload: page.id });
     history.push('/viewLocks');
   };
 

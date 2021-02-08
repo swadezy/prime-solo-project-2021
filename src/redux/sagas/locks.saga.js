@@ -24,7 +24,7 @@ function* fetchDetails(action) {
 function* postLock(action) {
   try {
     yield axios.post('/locks', action.payload);
-    yield put({ type: 'SET_LOCKS' });
+    yield put({ type: 'FETCH_ALL_LOCKS' });
   } catch (error) {
     console.error('lock post error', error);
   }
@@ -34,7 +34,7 @@ function* updateLock(action) {
   try {
     console.log('in update lock with lock', action.payload);
     yield axios.put(`/locks/${action.payload.id}`, action.payload);
-    yield put({ type: 'SET_LOCKS' });
+    yield put({ type: 'FETCH_ALL_LOCKS' });
   } catch (error) {
     console.error('lock update error', error);
   }
@@ -44,7 +44,7 @@ function* deleteLock(action) {
   try {
     console.log('in delete lock for id', action.payload);
     yield axios.delete(`/locks/${action.payload}`);
-    yield put({ type: 'SET_LOCKS' });
+    yield put({ type: 'FETCH_ALL_LOCKS' });
   } catch (error) {
     console.error('delete lock error', error);
   }
