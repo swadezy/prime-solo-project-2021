@@ -40,11 +40,22 @@ function* updateLock(action) {
   }
 }
 
+function* deleteLock(action) {
+  try {
+    console.log('in delete lock for id', action.payload);
+    yield axios.delete(`/locks/${action.payload}`);
+    yield put({ type: 'SET_LOCKS' });
+  } catch (error) {
+    console.error('delete lock error', error);
+  }
+}
+
 function* locksSaga() {
   yield takeEvery('FETCH_ALL_LOCKS', fetchAllLocks);
   yield takeEvery('FETCH_LOCK_DETAIL', fetchDetails);
   yield takeEvery('POST_LOCK', postLock);
   yield takeEvery('UPDATE_LOCK', updateLock);
+  yield takeEvery('DELETE_LOCK', deleteLock);
 }
 
 export default locksSaga;
