@@ -7,7 +7,7 @@ function AddLock() {
     nickname: '',
     brand_id: 0,
     type_id: 0,
-    num_pins: '',
+    num_pins: 0,
     img_url: '',
     notes: '',
   });
@@ -23,16 +23,20 @@ function AddLock() {
   const submitLock = (event) => {
     event.preventDefault();
     console.log(newLock);
-    dispatch({ type: 'POST_LOCK', payload: newLock });
-    // need to get select clear working
-    setNewLock({
-      nickname: '',
-      brand_id: 0,
-      type_id: 0,
-      num_pins: '',
-      img_url: '',
-      notes: '',
-    });
+    if (newLock.nickname) {
+      dispatch({ type: 'POST_LOCK', payload: newLock });
+      // need to get select clear working
+      setNewLock({
+        nickname: '',
+        brand_id: 0,
+        type_id: 0,
+        num_pins: '',
+        img_url: '',
+        notes: '',
+      });
+    } else {
+      console.log('complete all fields');
+    }
   };
 
   return (
