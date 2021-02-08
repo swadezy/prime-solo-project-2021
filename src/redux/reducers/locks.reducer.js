@@ -1,3 +1,4 @@
+// this reducer stores information for all locks
 const locksReducer = (state = [], action) => {
     switch (action.type) {
       case 'SET_LOCKS':

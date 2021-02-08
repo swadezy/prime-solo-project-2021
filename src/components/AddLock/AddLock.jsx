@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+// this view is used to add new locks to a user's account
 function AddLock() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const brands = useSelector((store) => store.brands);
+  const types = useSelector((store) => store.types);
+  // saves lock-to-add in state so it can be dispatched easily on submit click
   const [newLock, setNewLock] = useState({
     nickname: '',
     brand_id: 0,
@@ -14,29 +18,20 @@ function AddLock() {
     notes: '',
   });
 
+  // on page load, gets brands and types
   useEffect(() => {
     dispatch({ type: 'FETCH_BRANDS' });
     dispatch({ type: 'FETCH_TYPES' });
   }, []);
 
-  const brands = useSelector((store) => store.brands);
-  const types = useSelector((store) => store.types);
-
+  // validates that inputs are complete, then tells sagas to add the new lock
   const handleAdd = (event) => {
     event.preventDefault();
-    console.log(newLock);
     if (newLock.nickname) {
       dispatch({ type: 'POST_LOCK', payload: newLock });
-      // need to get select clear working
-      setNewLock({
-        nickname: '',
-        brand_id: 0,
-        type_id: 0,
-        num_pins: '',
-        img_url: '',
-        notes: '',
-      });
+      history.push('/viewLocks');
     } else {
+      // need to add input validation to client
       console.log('complete all fields');
     }
   };
@@ -44,7 +39,6 @@ function AddLock() {
   return (
     <div>
       <p>AddLock</p>
-
       <form onSubmit={handleAdd}>
         <span>Nickname :</span>
         <input
@@ -65,7 +59,9 @@ function AddLock() {
           <option value={0}>...select brand</option>
           {brands &&
             brands.map((brand) => (
-              <option value={brand.id}>{brand.brand}</option>
+              <option key={brand.id} value={brand.id}>
+                {brand.brand}
+              </option>
             ))}
         </select>
         <br></br>
@@ -79,7 +75,11 @@ function AddLock() {
         >
           <option value={0}>...select type</option>
           {types &&
-            types.map((type) => <option value={type.id}>{type.type}</option>)}
+            types.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.type}
+              </option>
+            ))}
         </select>
         <br></br>
 

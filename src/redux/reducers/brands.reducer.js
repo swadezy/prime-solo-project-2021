@@ -1,3 +1,4 @@
+// this reducer stores brands
 const brandsReducer = (state = [], action) => {
     switch (action.type) {
       case 'SET_BRANDS':
@@ -9,7 +10,7 @@ const brandsReducer = (state = [], action) => {
     }
   };
   
-  // locks will be on the redux state at:
-  // state.locks
+  // brands will be on the redux state at:
+  // state.brands
   export default brandsReducer;
   

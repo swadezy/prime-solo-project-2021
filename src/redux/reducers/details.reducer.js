@@ -1,3 +1,4 @@
+// this reducer stores information for one lock at a time used for details view and edit
 const lockReducer = (state = {}, action) => {
     switch (action.type) {
       case 'SET_LOCK':
@@ -9,7 +10,7 @@ const lockReducer = (state = {}, action) => {
     }
   };
   
-  // locks will be on the redux state at:
-  // state.locks
+  // details will be on the redux state at:
+  // state.details
   export default lockReducer;
   

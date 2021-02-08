@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
+// this component allows the user to edit lock information for each lock in their account
 function LockEdit() {
   const page = useParams();
   const dispatch = useDispatch();
@@ -19,11 +20,11 @@ function LockEdit() {
   const handleEdit = (event) => {
     event.preventDefault();
     dispatch({ type: 'UPDATE_LOCK', payload: lock });
-    dispatch({ type: 'CLEAR_LOCK' });
     history.push({ pathname: `/details/${lock.id}` });
   };
 
   const routeBack = () => {
+    // where do I put these clear reducers? in client or in sagas?
     dispatch({ type: 'CLEAR_LOCK' });
     history.push({ pathname: `/details/${lock.id}` });
   };

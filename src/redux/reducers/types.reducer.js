@@ -1,3 +1,4 @@
+// this reducer stores types
 const typesReducer = (state = [], action) => {
     switch (action.type) {
       case 'SET_TYPES':
@@ -9,7 +10,7 @@ const typesReducer = (state = [], action) => {
     }
   };
   
-  // locks will be on the redux state at:
-  // state.locks
+  // types will be on the redux state at:
+  // state.types
   export default typesReducer;
   

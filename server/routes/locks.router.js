@@ -5,6 +5,7 @@ const {
 } = require('../modules/authentication-middleware');
 const router = express.Router();
 
+// gets full list of locks with brand and type from db
 router.get('/all', rejectUnauthenticated, (req, res) => {
   console.log('in get all locks');
   const queryText = `SELECT "locks".*, "brands".brand, "types".type FROM "locks"
@@ -23,6 +24,7 @@ router.get('/all', rejectUnauthenticated, (req, res) => {
     });
 });
 
+// gets details for one lock from db
 router.get('/:id', rejectUnauthenticated, (req, res) => {
   console.log('in details get with lock id', req.params.id);
   const queryText = `SELECT "locks".*, "brands".brand, "types".type FROM "locks"
@@ -41,6 +43,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+// adds lock to db
 router.post('/', rejectUnauthenticated, (req, res) => {
   console.log('in post lock, received', req.body);
   const queryText = `INSERT INTO "locks" ("nickname", "user_id", "brand_id", "type_id", "num_pins", "img_url", "notes")
@@ -65,6 +68,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
+// updates lock in db
 router.put('/:id', rejectUnauthenticated, (req, res) => {
   console.log('in put, received', req.body);
   const queryText = `UPDATE "locks"
@@ -90,6 +94,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+// deletes lock from db
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
   console.log('in delete for id', req.params.id);
   const queryText = `DELETE FROM "locks" WHERE "id" = $1;`;

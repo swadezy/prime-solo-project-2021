@@ -1,6 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
+// get request for all locks
 function* fetchAllLocks() {
   try {
     const locks = yield axios.get('/locks/all');
@@ -11,6 +12,7 @@ function* fetchAllLocks() {
   }
 }
 
+// get request for details for one lock
 function* fetchDetails(action) {
   try {
     const lock = yield axios.get(`/locks/${action.payload}`);
@@ -21,6 +23,7 @@ function* fetchDetails(action) {
   }
 }
 
+// post request to add a lock
 function* postLock(action) {
   try {
     yield axios.post('/locks', action.payload);
@@ -30,6 +33,7 @@ function* postLock(action) {
   }
 }
 
+// put request to update a lock
 function* updateLock(action) {
   try {
     console.log('in update lock with lock', action.payload);
@@ -40,6 +44,7 @@ function* updateLock(action) {
   }
 }
 
+// delete request to delete a lock
 function* deleteLock(action) {
   try {
     console.log('in delete lock for id', action.payload);

@@ -1,6 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
+// get request for brands
 function* fetchBrands() {
   try {
     const brands = yield axios.get('/brands');

@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom';
 
+// this component renders an individual lock on the view locks page
 function LockCard({ lock }) {
   const history = useHistory();
 

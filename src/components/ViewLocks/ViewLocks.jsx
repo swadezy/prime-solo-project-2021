@@ -2,10 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LockCard from '../LockCard/LockCard';
 
+// this component shows the user all locks currently tied to their account
 function ViewLocks() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // where do I put these clear reducers? in client or in sagas?
+    dispatch({ type: 'CLEAR_LOCKS' });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
   }, []);
 
@@ -14,9 +17,7 @@ function ViewLocks() {
   return (
     <div>
       <p>ViewLocks</p>
-      {locks && locks.map((lock) => (
-          <LockCard key={lock.id} lock={lock} />
-      ))}
+      {locks && locks.map((lock) => <LockCard key={lock.id} lock={lock} />)}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
+// get request for types
 function* fetchTypes() {
   try {
     const types = yield axios.get('/types');

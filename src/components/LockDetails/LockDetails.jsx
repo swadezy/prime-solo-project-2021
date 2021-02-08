@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
+// this view displays more robust information on a lock than is available on the view locks page
 function LockDetails() {
   const page = useParams();
   const dispatch = useDispatch();
@@ -9,6 +10,8 @@ function LockDetails() {
   const lock = useSelector((store) => store.details);
 
   useEffect(() => {
+    // where do I put these clear reducers? in client or in sagas?
+    dispatch({ type: 'CLEAR_LOCK' });
     dispatch({ type: 'FETCH_DETAILS', payload: page.id });
   }, []);
 

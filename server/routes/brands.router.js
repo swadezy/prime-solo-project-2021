@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+// gets full list of brands from db
 router.get('/', (req, res) => {
   console.log('in get brands');
   const queryText = `SELECT * FROM "brands" ORDER BY "id" ASC;`;
@@ -19,11 +17,8 @@ router.get('/', (req, res) => {
     });
 });
 
-/**
- * POST route template
- */
 router.post('/', (req, res) => {
-  // POST route code here
+
 });
 
 module.exports = router;
