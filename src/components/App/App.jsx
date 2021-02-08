@@ -20,6 +20,11 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
+import AddLock from '../AddLock/AddLock';
+import ViewLocks from '../ViewLocks/ViewLocks';
+import AddPicking from '../AddPicking/AddPicking';
+import ViewHistory from '../ViewHistory/ViewHistory';
+
 import './App.css';
 
 function App() {
@@ -64,6 +69,39 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          {/* Sean adding here */}
+          <ProtectedRoute
+            // logged in shows AddLock else shows LoginPage
+            exact
+            path="/addLock"
+          >
+            <AddLock />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows ViewLocks else shows LoginPage
+            exact
+            path="/viewLocks"
+          >
+            <ViewLocks />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows AddPicking else shows LoginPage
+            exact
+            path="/addPicking"
+          >
+            <AddPicking />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows ViewHistory else shows LoginPage
+            exact
+            path="/viewHistory"
+          >
+            <ViewHistory />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will
