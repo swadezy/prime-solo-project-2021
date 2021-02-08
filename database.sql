@@ -10,7 +10,6 @@ CREATE TABLE "users" (
     "admin" BOOLEAN NOT NULL DEFAULT false
 );
 
-
 CREATE TABLE "brands" (
 	"id" SERIAL PRIMARY KEY,
 	"brand" VARCHAR(30) NOT NULL
@@ -41,7 +40,6 @@ CREATE TABLE "pickings" (
 	"notes" VARCHAR(255)
 );
 
-
 --dummy data
 INSERT INTO "brands" ("brand")
 VALUES ('Master'), ('Schlage'), ('Medeco');
@@ -60,7 +58,6 @@ JOIN "locks" ON "pickings".lock_id = "locks".id
 JOIN "brands" ON "locks".brand_id = "brands".id
 JOIN "types" ON "locks".type_id = "types".id
 JOIN "users" ON "locks".user_id = "users".id;
-
 
 --drop tables for postico testing
 DROP TABLE "users";
