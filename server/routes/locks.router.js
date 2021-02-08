@@ -9,7 +9,8 @@ router.get('/all', rejectUnauthenticated, (req, res) => {
   console.log('in get all locks');
   const queryText = `SELECT "locks".*, "brands".brand, "types".type FROM "locks"
   JOIN "brands" ON "locks".brand_id = "brands".id
-  JOIN "types" ON "locks".type_id = "types".id;`;
+  JOIN "types" ON "locks".type_id = "types".id
+  ORDER BY "id" ASC;`;
   pool
     .query(queryText)
     .then((result) => {
@@ -61,6 +62,32 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     })
     .catch((error) => {
       console.log('error in post lock', error);
+      res.sendStatus(500);
+    });
+});
+
+router.put('/:id', (req, res) => {
+  console.log('in put, received', req.body);
+  console.log('user is here', req.user);
+  const queryText = `UPDATE "locks"
+  SET "nickname" = $1, "brand_id" = $2, "type_id" = $3, "num_pins" = $4, "img_url" = $5, "notes" = $6
+  WHERE "id" = $7;`;
+  pool
+    .query(queryText, [
+      req.body.nickname,
+      req.body.brand_id,
+      req.body.type_id,
+      req.body.num_pins,
+      req.body.img_url,
+      req.body.notes,
+      req.body.id,
+    ])
+    .then((result) => {
+      console.log('updated lock');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('error in update lock', error);
       res.sendStatus(500);
     });
 });

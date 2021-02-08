@@ -9,7 +9,7 @@ function LockCard({ lock }) {
       {lock.img_url ? <p>there is an image</p> : <p>no image</p>}
       <button
         onClick={() => {
-          history.push({ pathname: `/lockDetails/${lock.id}` });
+          history.push({ pathname: `/details/${lock.id}` });
         }}
       >
         Details

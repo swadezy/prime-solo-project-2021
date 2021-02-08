@@ -30,10 +30,21 @@ function* postLock(action) {
   }
 }
 
+function* updateLock(action) {
+  try {
+    console.log('in update lock with lock', action.payload);
+    yield axios.put(`/locks/${action.payload.id}`, action.payload);
+    yield put({ type: 'SET_LOCKS' });
+  } catch (error) {
+    console.error('lock update error', error);
+  }
+}
+
 function* locksSaga() {
   yield takeEvery('FETCH_ALL_LOCKS', fetchAllLocks);
   yield takeEvery('FETCH_LOCK_DETAIL', fetchDetails);
   yield takeEvery('POST_LOCK', postLock);
+  yield takeEvery('UPDATE_LOCK', updateLock);
 }
 
 export default locksSaga;

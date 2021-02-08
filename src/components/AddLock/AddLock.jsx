@@ -20,7 +20,7 @@ function AddLock() {
   const brands = useSelector((store) => store.brands);
   const types = useSelector((store) => store.types);
 
-  const submitLock = (event) => {
+  const handleAdd = (event) => {
     event.preventDefault();
     console.log(newLock);
     if (newLock.nickname) {
@@ -43,7 +43,7 @@ function AddLock() {
     <div>
       <p>AddLock</p>
 
-      <form onSubmit={submitLock}>
+      <form onSubmit={handleAdd}>
         <span>Nickname :</span>
         <input
           value={newLock.nickname}
@@ -55,7 +55,7 @@ function AddLock() {
 
         <span>Brand :</span>
         <select
-          value={newLock.brand}
+          value={newLock.brand_id}
           onChange={(event) =>
             setNewLock({ ...newLock, brand_id: event.target.value })
           }
@@ -70,7 +70,7 @@ function AddLock() {
 
         <span>Type :</span>
         <select
-          value={newLock.type}
+          value={newLock.type_id}
           onChange={(event) =>
             setNewLock({ ...newLock, type_id: event.target.value })
           }

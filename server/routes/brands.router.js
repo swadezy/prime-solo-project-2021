@@ -7,7 +7,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   console.log('in get brands');
-  const queryText = `SELECT * FROM "brands";`;
+  const queryText = `SELECT * FROM "brands" ORDER BY "id" ASC;`;
   pool
     .query(queryText)
     .then((result) => {

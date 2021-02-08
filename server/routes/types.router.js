@@ -7,7 +7,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   console.log('in get types');
-  const queryText = `SELECT * FROM "types";`;
+  const queryText = `SELECT * FROM "types" ORDER BY "id" ASC;`;
   pool
     .query(queryText)
     .then((result) => {
