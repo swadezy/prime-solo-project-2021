@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 function ViewLocks() {
@@ -12,8 +12,8 @@ function ViewLocks() {
 
   return (
     <div>
-      <span>ViewLocks</span>
-      <span>{JSON.stringify(locks)}</span>
+      <p>ViewLocks</p>
+      <p>{JSON.stringify(locks)}</p>
     </div>
   );
 }
