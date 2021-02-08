@@ -24,6 +24,7 @@ import AddLock from '../AddLock/AddLock';
 import ViewLocks from '../ViewLocks/ViewLocks';
 import AddPicking from '../AddPicking/AddPicking';
 import ViewHistory from '../ViewHistory/ViewHistory';
+import LockDetails from '../LockDetails/LockDetails';
 
 import './App.css';
 
@@ -102,6 +103,14 @@ function App() {
             path="/viewHistory"
           >
             <ViewHistory />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows ViewHistory else shows LoginPage
+            exact
+            path="/lockDetails/:id"
+          >
+            <LockDetails />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will

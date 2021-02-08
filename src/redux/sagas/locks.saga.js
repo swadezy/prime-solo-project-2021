@@ -7,7 +7,17 @@ function* fetchAllLocks() {
     console.log('got locks', locks.data);
     yield put({ type: 'SET_LOCKS', payload: locks.data });
   } catch (error) {
-    console.log('lock fetch error', error);
+    console.error('all locks fetch error', error);
+  }
+}
+
+function* fetchDetails(action) {
+  try {
+    const lock = yield axios.get(`/locks/${action.payload}`);
+    console.log('id', action.payload, 'received lock', lock.data);
+    yield put({ type: 'SET_LOCKS', payload: lock.data });
+  } catch (error) {
+    console.error('lock details fetch error', error);
   }
 }
 
@@ -16,12 +26,13 @@ function* postLock(action) {
     yield axios.post('/locks', action.payload);
     yield put({ type: 'SET_LOCKS' });
   } catch (error) {
-    console.log('lock post error', error);
+    console.error('lock post error', error);
   }
 }
 
 function* locksSaga() {
   yield takeEvery('FETCH_ALL_LOCKS', fetchAllLocks);
+  yield takeEvery('FETCH_LOCK_DETAIL', fetchDetails);
   yield takeEvery('POST_LOCK', postLock);
 }
 

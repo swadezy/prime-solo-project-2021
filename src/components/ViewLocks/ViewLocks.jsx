@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import LockCard from '../LockCard/LockCard';
 
 function ViewLocks() {
   const dispatch = useDispatch();
@@ -13,7 +14,9 @@ function ViewLocks() {
   return (
     <div>
       <p>ViewLocks</p>
-      <p>{JSON.stringify(locks)}</p>
+      {locks && locks.map((lock) => (
+          <LockCard key={lock.id} lock={lock} />
+      ))}
     </div>
   );
 }

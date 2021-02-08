@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.get('/all', rejectUnauthenticated, (req, res) => {
   console.log('in get all locks');
-  const queryText = `SELECT * FROM "locks";`;
+  const queryText = `SELECT "locks".*, "brands".brand, "types".type FROM "locks"
+  JOIN "brands" ON "locks".brand_id = "brands".id
+  JOIN "types" ON "locks".type_id = "types".id;`;
   pool
     .query(queryText)
     .then((result) => {
@@ -16,6 +18,24 @@ router.get('/all', rejectUnauthenticated, (req, res) => {
     })
     .catch((error) => {
       console.log('error in fetch all locks', error);
+      res.sendStatus(500);
+    });
+});
+
+router.get('/:id', (req, res) => {
+  console.log('in details get with id', req.params.id);
+  const queryText = `SELECT "locks".*, "brands".brand, "types".type FROM "locks"
+    JOIN "brands" ON "locks".brand_id = "brands".id
+    JOIN "types" ON "locks".type_id = "types".id
+    WHERE "locks".id = $1;`;
+  pool
+    .query(queryText, [req.params.id])
+    .then((result) => {
+      console.log('received lock detail', result.rows);
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log('error in fetch lock detail', error);
       res.sendStatus(500);
     });
 });
