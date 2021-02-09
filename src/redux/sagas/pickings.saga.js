@@ -1,11 +1,17 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 // get request for all pickings
 function* fetchAllPickings(action) {
   try {
-    // select effect? finds data from redux store, look into
-    const pickings = yield axios.get(`/pickings/all/${action.payload.lock}/${action.payload.brand}/${action.payload.type}`);
+    yield put({
+      type: action.payload ? 'SET_FILTER' : 'CLEAR_FILTER',
+      payload: action.payload,
+    });
+    const state = yield select();
+    const pickings = yield axios.get(
+      `/pickings/all/${state.filter.lock}/${state.filter.brand}/${state.filter.type}`
+    );
     yield put({ type: 'SET_PICKINGS', payload: pickings.data });
   } catch (error) {
     console.error('all pickings fetch error', error);
@@ -59,7 +65,7 @@ function* pickingsSaga() {
   yield takeEvery('FETCH_PICKING_DETAILS', fetchPickDetails);
   yield takeEvery('POST_PICKING', postPicking);
   yield takeEvery('UPDATE_PICKING', updatePicking);
-  yield takeEvery('DELETE_PICKING', deletePicking); 
+  yield takeEvery('DELETE_PICKING', deletePicking);
 }
 
 export default pickingsSaga;

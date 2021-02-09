@@ -12,16 +12,11 @@ function ViewHistory() {
   const filter = useSelector((store) => store.filter);
 
   useEffect(() => {
-    dispatch({ type: 'CLEAR_FILTER' });
-    dispatch({ type: 'FETCH_ALL_PICKINGS', payload: filter });
+    dispatch({ type: 'FETCH_ALL_PICKINGS' });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
     dispatch({ type: 'FETCH_BRANDS' });
     dispatch({ type: 'FETCH_TYPES' });
   }, []);
-
-  const handleFilter = () => {
-    dispatch({ type: 'FETCH_ALL_PICKINGS', payload: filter });
-  };
 
   return (
     <div>
@@ -31,7 +26,7 @@ function ViewHistory() {
         value={filter.lock}
         onChange={(event) =>
           dispatch({
-            type: 'SET_FILTER',
+            type: 'FETCH_ALL_PICKINGS',
             payload: { ...filter, lock: event.target.value },
           })
         }
@@ -50,7 +45,7 @@ function ViewHistory() {
         value={filter.brand}
         onChange={(event) =>
           dispatch({
-            type: 'SET_FILTER',
+            type: 'FETCH_ALL_PICKINGS',
             payload: { ...filter, brand: event.target.value },
           })
         }
@@ -68,7 +63,7 @@ function ViewHistory() {
         value={filter.type}
         onChange={(event) =>
           dispatch({
-            type: 'SET_FILTER',
+            type: 'FETCH_ALL_PICKINGS',
             payload: { ...filter, type: event.target.value },
           })
         }
@@ -81,8 +76,15 @@ function ViewHistory() {
             </option>
           ))}
       </select>
-      <button onClick={handleFilter}>Filter</button>
-      <button onClick={() => dispatch({ type: 'CLEAR_FILTER' })}>Reset</button>
+      <button
+        onClick={() =>
+          dispatch({
+            type: 'FETCH_ALL_PICKINGS',
+          })
+        }
+      >
+        Reset
+      </button>
       <table>
         <thead>
           <tr>
