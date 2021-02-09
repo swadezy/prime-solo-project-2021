@@ -5,7 +5,6 @@ import axios from 'axios';
 function* fetchAllLocks() {
   try {
     const locks = yield axios.get('/locks/all');
-    console.log('got locks', locks.data);
     yield put({ type: 'SET_LOCKS', payload: locks.data });
   } catch (error) {
     console.error('all locks fetch error', error);

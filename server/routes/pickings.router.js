@@ -5,16 +5,19 @@ const {
 } = require('../modules/authentication-middleware');
 const router = express.Router();
 
-// gets full list of pickings with lock info, brand, and type from db
-router.get('/all', rejectUnauthenticated, (req, res) => {
-  console.log('in get all pickings');
+// gets filtered list of pickings with lock info, brand, and type from db - defaults to unfiltered
+router.get('/:lock/:brand/:type', rejectUnauthenticated, (req, res) => {
+  console.log('received filter params', req.params);
   const queryText = `SELECT "pickings".*, "locks".nickname, "locks".num_pins, "brands".brand, "types".type FROM "pickings"
   JOIN "locks" ON "pickings".lock_id = "locks".id
   JOIN "brands" ON "locks".brand_id = "brands".id
   JOIN "types" ON "locks".type_id = "types".id
+  WHERE ("lock_id" = $1 OR $1 = 0)
+  AND ("brands".id = $2 OR $2 = 0)
+  AND ("types".id = $3 OR $3 = 0)
   ORDER BY "pickings".date ASC;`;
   pool
-    .query(queryText)
+    .query(queryText, [req.params.lock, req.params.brand, req.params.type])
     .then((result) => {
       console.log('received all pickings', result.rows);
       res.send(result.rows);

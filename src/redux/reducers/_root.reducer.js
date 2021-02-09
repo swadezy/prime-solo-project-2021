@@ -4,6 +4,7 @@ import user from './user.reducer';
 import locks from './locks.reducer';
 import details from './details.reducer';
 import pickings from './pickings.reducer';
+import filter from './filter.reducer';
 import brands from './brands.reducer';
 import types from './types.reducer';
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   locks,
   details,
   pickings,
+  filter,
   brands,
   types,
 });

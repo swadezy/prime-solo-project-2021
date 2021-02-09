@@ -2,10 +2,9 @@ import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 // get request for all pickings
-function* fetchAllPickings() {
+function* fetchAllPickings(action) {
   try {
-    const pickings = yield axios.get('/pickings/all');
-    console.log('got pickings', pickings.data);
+    const pickings = yield axios.get(`/pickings/${action.payload.lock}/${action.payload.brand}/${action.payload.type}`);
     yield put({ type: 'SET_PICKINGS', payload: pickings.data });
   } catch (error) {
     console.error('all pickings fetch error', error);
@@ -58,7 +57,6 @@ function* postPicking(action) {
 function* pickingsSaga() {
   yield takeEvery('FETCH_ALL_PICKINGS', fetchAllPickings);
   yield takeEvery('POST_PICKING', postPicking);
-
 }
 
 export default pickingsSaga;
