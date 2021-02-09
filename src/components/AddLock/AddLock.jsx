@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { Button } from '@material-ui/core';
+
 // this view is used to add new locks to a user's account
 function AddLock() {
   const dispatch = useDispatch();
@@ -9,7 +11,7 @@ function AddLock() {
   const brands = useSelector((store) => store.brands);
   const types = useSelector((store) => store.types);
   // saves lock-to-add in state so it can be dispatched easily on submit click
-    // is this the right way to do it?
+  // is this the right way to do it?
   const [newLock, setNewLock] = useState({
     nickname: '',
     brand_id: 0,
@@ -110,14 +112,18 @@ function AddLock() {
           }
         />
         <br></br>
-        <button type="submit">Submit</button>
-        <button
+        <Button type="submit" variant="contained" color="primary">
+          Submit
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
           onClick={() => {
             history.push('/');
           }}
         >
           Cancel
-        </button>
+        </Button>
       </form>
     </div>
   );

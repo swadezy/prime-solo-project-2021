@@ -4,6 +4,24 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
 function Nav() {
   const user = useSelector((store) => store.user);
 
@@ -17,46 +35,56 @@ function Nav() {
     loginLinkData.text = 'Home';
   }
 
+  const classes = useStyles();
+
   return (
-    <div className="nav">
-      <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
-      </Link>
-      <div>
-        <Link className="navLink" to={loginLinkData.path}>
-          {loginLinkData.text}
-        </Link>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h5"
+            className={classes.title}
+            component={Link}
+            style={{ textDecoration: 'none' }}
+            to={'/home'}
+            color="inherit"
+          >
+            PickLogger
+          </Typography>
+          <Button component={Link} to={loginLinkData.path} color="inherit">
+            {loginLinkData.text}
+          </Button>
 
-        {user.id && (
-          <>
-            <Link className="navLink" to="/info">
-              Info Page
-            </Link>
-            <Link className="navLink" to="/addLock">
-              Add Lock
-            </Link>
-            <Link className="navLink" to="/viewLocks">
-              View Locks
-            </Link>
-            <Link className="navLink" to="/addPicking">
-              Add Picking
-            </Link>
-            <Link className="navLink" to="/viewHistory">
-              View History
-            </Link>
-          </>
-        )}
-        {user.admin && (
-          <Link className="navLink" to="/admin">
-            Admin
-          </Link>
-        )}
-
-        <Link className="navLink" to="/about">
-          About
-        </Link>
-        {user.id && <LogOutButton className="navLink" />}
-      </div>
+          {user.id && (
+            <div>
+              <Button component={Link} to="/info" color="inherit">
+                Info
+              </Button>
+              <Button component={Link} to="/addLock" color="inherit">
+                Add Lock
+              </Button>
+              <Button component={Link} to="/viewLocks" color="inherit">
+                View Locks
+              </Button>
+              <Button component={Link} to="/addPicking" color="inherit">
+                Add Picking
+              </Button>
+              <Button component={Link} to="/viewHistory" color="inherit">
+                View History
+              </Button>
+            </div>
+          )}
+          {user.admin && (
+            <Button component={Link} to="/admin" color="inherit">
+              Admin
+            </Button>
+          )}
+          <Button component={Link} to="/about" color="inherit">
+            About
+          </Button>
+          {user.id && <LogOutButton />}
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }
