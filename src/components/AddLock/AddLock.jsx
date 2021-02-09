@@ -9,6 +9,7 @@ function AddLock() {
   const brands = useSelector((store) => store.brands);
   const types = useSelector((store) => store.types);
   // saves lock-to-add in state so it can be dispatched easily on submit click
+    // is this the right way to do it?
   const [newLock, setNewLock] = useState({
     nickname: '',
     brand_id: 0,
@@ -25,7 +26,7 @@ function AddLock() {
   }, []);
 
   // validates that inputs are complete, then tells sagas to add the new lock
-  const handleAdd = (event) => {
+  const handleAddLock = (event) => {
     event.preventDefault();
     if (newLock.nickname) {
       dispatch({ type: 'POST_LOCK', payload: newLock });
@@ -38,9 +39,9 @@ function AddLock() {
 
   return (
     <div>
-      <p>AddLock</p>
-      <form onSubmit={handleAdd}>
-        <span>Nickname :</span>
+      <p>Add Lock</p>
+      <form onSubmit={handleAddLock}>
+        <span>Nickname -</span>
         <input
           value={newLock.nickname}
           onChange={(event) =>
@@ -49,7 +50,7 @@ function AddLock() {
         />
         <br></br>
 
-        <span>Brand :</span>
+        <span>Brand - </span>
         <select
           value={newLock.brand_id}
           onChange={(event) =>
@@ -66,7 +67,7 @@ function AddLock() {
         </select>
         <br></br>
 
-        <span>Type :</span>
+        <span>Type - </span>
         <select
           value={newLock.type_id}
           onChange={(event) =>
@@ -83,7 +84,7 @@ function AddLock() {
         </select>
         <br></br>
 
-        <span>Number of Pins :</span>
+        <span>Number of Pins -</span>
         <input
           value={newLock.num_pins}
           onChange={(event) =>
@@ -92,7 +93,7 @@ function AddLock() {
         />
         <br></br>
 
-        <span>Image Upload :</span>
+        <span>Image Upload -</span>
         <input
           value={newLock.img_url}
           onChange={(event) =>
@@ -101,7 +102,7 @@ function AddLock() {
         />
         <br></br>
 
-        <span>Notes :</span>
+        <span>Notes -</span>
         <input
           value={newLock.notes}
           onChange={(event) =>
@@ -115,7 +116,7 @@ function AddLock() {
             history.push('/');
           }}
         >
-          Back
+          Cancel
         </button>
       </form>
     </div>

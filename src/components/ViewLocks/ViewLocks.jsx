@@ -5,14 +5,13 @@ import LockCard from '../LockCard/LockCard';
 // this component shows the user all locks currently tied to their account
 function ViewLocks() {
   const dispatch = useDispatch();
+  const locks = useSelector((store) => store.locks);
 
   useEffect(() => {
     // where do I put these clear reducers? in client or in sagas?
     dispatch({ type: 'CLEAR_LOCKS' });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
   }, []);
-
-  const locks = useSelector((store) => store.locks);
 
   return (
     <div>

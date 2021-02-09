@@ -3,6 +3,7 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 import locks from './locks.reducer';
 import details from './details.reducer';
+import pickings from './pickings.reducer';
 import brands from './brands.reducer';
 import types from './types.reducer';
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   locks,
   details,
+  pickings,
   brands,
   types,
 });

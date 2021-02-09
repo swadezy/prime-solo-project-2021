@@ -46,7 +46,7 @@ function LockEdit() {
           />
           <br></br>
 
-          <span>Brand -</span>
+          <span>Brand - </span>
           <select
             value={lock.brand_id}
             onChange={(event) =>
@@ -65,7 +65,7 @@ function LockEdit() {
           </select>
 
           <br></br>
-          <span>Type -</span>
+          <span>Type - </span>
           <select
             value={lock.type_id}
             onChange={(event) =>
