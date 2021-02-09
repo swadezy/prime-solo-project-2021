@@ -96,7 +96,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
 
 // deletes lock from db
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
-  console.log('in delete for id', req.params.id);
+  console.log('in delete for lock id', req.params.id);
   const queryText = `DELETE FROM "locks" WHERE "id" = $1;`;
   pool
     .query(queryText, [req.params.id])

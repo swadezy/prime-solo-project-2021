@@ -16,10 +16,9 @@ function PickingDetails() {
   }, []);
 
   const handleDelete = () => {
-    // swal alert?
-    // console.log('clicked delete for lock', page.id);
-    // dispatch({ type: 'DELETE_LOCK', payload: page.id });
-    // history.push('/viewLocks');
+    // swal?
+    dispatch({ type: 'DELETE_PICKING', payload: page.id });
+    history.push('/viewHistory');
   };
 
   const routeBack = () => {

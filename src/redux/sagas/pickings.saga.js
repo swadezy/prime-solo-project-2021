@@ -39,26 +39,27 @@ function* updatePicking(action) {
     yield axios.put(`/pickings/${action.payload.id}`, action.payload);
     yield put({ type: 'FETCH_DETAILS' });
   } catch (error) {
-    console.error('lock update error', error);
+    console.error('picking update error', error);
   }
 }
 
 // delete request to delete a picking event
-// function* deleteLock(action) {
-//   try {
-//     console.log('in delete lock for id', action.payload);
-//     yield axios.delete(`/locks/${action.payload}`);
-//     yield put({ type: 'FETCH_DETAILS' });
-//   } catch (error) {
-//     console.error('delete lock error', error);
-//   }
-// }
+function* deletePicking(action) {
+  try {
+    console.log('in delete picking for id', action.payload);
+    yield axios.delete(`/pickings/${action.payload}`);
+    yield put({ type: 'FETCH_DETAILS' });
+  } catch (error) {
+    console.error('delete picking error', error);
+  }
+}
 
 function* pickingsSaga() {
   yield takeEvery('FETCH_ALL_PICKINGS', fetchAllPickings);
   yield takeEvery('FETCH_PICKING_DETAILS', fetchPickDetails);
   yield takeEvery('POST_PICKING', postPicking);
   yield takeEvery('UPDATE_PICKING', updatePicking);
+  yield takeEvery('DELETE_PICKING', deletePicking); 
 }
 
 export default pickingsSaga;

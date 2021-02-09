@@ -95,20 +95,20 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
-// deletes lock from db
-// router.delete('/:id', rejectUnauthenticated, (req, res) => {
-//   console.log('in delete for id', req.params.id);
-//   const queryText = `DELETE FROM "locks" WHERE "id" = $1;`;
-//   pool
-//     .query(queryText, [req.params.id])
-//     .then((result) => {
-//       console.log('deleted lock');
-//       res.sendStatus(200);
-//     })
-//     .catch((error) => {
-//       console.log('error in delete lock', error);
-//       res.sendStatus(500);
-//     });
-// });
+// deletes picking event from db
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  console.log('in delete for picking id', req.params.id);
+  const queryText = `DELETE FROM "pickings" WHERE "id" = $1;`;
+  pool
+    .query(queryText, [req.params.id])
+    .then((result) => {
+      console.log('deleted picking event');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('error in delete picking', error);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;
