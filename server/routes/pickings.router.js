@@ -6,7 +6,7 @@ const {
 const router = express.Router();
 
 // gets filtered list of pickings with lock info, brand, and type from db - defaults to unfiltered
-router.get('/:lock/:brand/:type', rejectUnauthenticated, (req, res) => {
+router.get('/all/:lock/:brand/:type', rejectUnauthenticated, (req, res) => {
   console.log('received filter params', req.params);
   const queryText = `SELECT "pickings".*, "locks".nickname, "locks".num_pins, "brands".brand, "types".type FROM "pickings"
   JOIN "locks" ON "pickings".lock_id = "locks".id
@@ -28,24 +28,25 @@ router.get('/:lock/:brand/:type', rejectUnauthenticated, (req, res) => {
     });
 });
 
-// gets details for one lock from db
-// router.get('/:id', rejectUnauthenticated, (req, res) => {
-//   console.log('in details get with lock id', req.params.id);
-//   const queryText = `SELECT "locks".*, "brands".brand, "types".type FROM "locks"
-//     JOIN "brands" ON "locks".brand_id = "brands".id
-//     JOIN "types" ON "locks".type_id = "types".id
-//     WHERE "locks".id = $1;`;
-//   pool
-//     .query(queryText, [req.params.id])
-//     .then((result) => {
-//       console.log('received lock detail', result.rows);
-//       res.send(result.rows);
-//     })
-//     .catch((error) => {
-//       console.log('error in fetch lock detail', error);
-//       res.sendStatus(500);
-//     });
-// });
+// gets details for one picking event from db
+router.get('/:id', rejectUnauthenticated, (req, res) => {
+  console.log('in details get with picking id', req.params.id);
+  const queryText = `SELECT "pickings".*, "locks".nickname, "locks".num_pins, "locks".notes AS "lock_notes", "brands".brand, "types".type FROM "pickings"
+  JOIN "locks" ON "pickings".lock_id = "locks".id
+  JOIN "brands" ON "locks".brand_id = "brands".id
+  JOIN "types" ON "locks".type_id = "types".id
+  WHERE "pickings".id = $1;`;
+  pool
+    .query(queryText, [req.params.id])
+    .then((result) => {
+      console.log('received picking detail', result.rows);
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log('error in fetch picking detail', error);
+      res.sendStatus(500);
+    });
+});
 
 // adds picking event to db
 router.post('/', rejectUnauthenticated, (req, res) => {

@@ -26,6 +26,7 @@ import AddPicking from '../AddPicking/AddPicking';
 import ViewHistory from '../ViewHistory/ViewHistory';
 import LockDetails from '../LockDetails/LockDetails';
 import LockEdit from '../LockEdit/LockEdit';
+import PickingDetails from '../PickingDetails/PickingDetails';
 
 import './App.css';
 
@@ -120,6 +121,14 @@ function App() {
             path="/edit/:id"
           >
             <LockEdit />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows dedicated LockEdit else shows LoginPage
+            exact
+            path="/pickDetails/:id"
+          >
+            <PickingDetails />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will

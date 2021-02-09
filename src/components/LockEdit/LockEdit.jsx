@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -7,12 +7,12 @@ function LockEdit() {
   const page = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const lock = useSelector((store) => store.details);
+  const lock = useSelector((store) => store.lockDetails);
   const brands = useSelector((store) => store.brands);
   const types = useSelector((store) => store.types);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_DETAILS', payload: page.id });
+    dispatch({ type: 'FETCH_LOCK_DETAILS', payload: page.id });
     dispatch({ type: 'FETCH_BRANDS' });
     dispatch({ type: 'FETCH_TYPES' });
   }, []);

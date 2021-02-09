@@ -7,12 +7,12 @@ function LockDetails() {
   const page = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const lock = useSelector((store) => store.details);
+  const lock = useSelector((store) => store.lockDetails);
 
   useEffect(() => {
     // where do I put these clear reducers? in client or in sagas?
     dispatch({ type: 'CLEAR_LOCK' });
-    dispatch({ type: 'FETCH_DETAILS', payload: page.id });
+    dispatch({ type: 'FETCH_LOCK_DETAILS', payload: page.id });
   }, []);
 
   const handleDelete = () => {

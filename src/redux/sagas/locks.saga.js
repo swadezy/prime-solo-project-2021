@@ -12,7 +12,7 @@ function* fetchAllLocks() {
 }
 
 // get request for details for one lock
-function* fetchDetails(action) {
+function* fetchLockDetails(action) {
   try {
     const lock = yield axios.get(`/locks/${action.payload}`);
     console.log('id', action.payload, 'received lock', lock.data);
@@ -56,7 +56,7 @@ function* deleteLock(action) {
 
 function* locksSaga() {
   yield takeEvery('FETCH_ALL_LOCKS', fetchAllLocks);
-  yield takeEvery('FETCH_DETAILS', fetchDetails);
+  yield takeEvery('FETCH_LOCK_DETAILS', fetchLockDetails);
   yield takeEvery('POST_LOCK', postLock);
   yield takeEvery('UPDATE_LOCK', updateLock);
   yield takeEvery('DELETE_LOCK', deleteLock);

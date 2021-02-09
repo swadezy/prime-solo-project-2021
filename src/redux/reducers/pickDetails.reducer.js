@@ -1,16 +1,15 @@
 // this reducer stores information for one lock at a time used for details view and edit
-const lockReducer = (state = {}, action) => {
+const pickDetailsReducer = (state = {}, action) => {
     switch (action.type) {
-      case 'SET_LOCK':
+      case 'SET_PICKING':
         return action.payload;
-      case 'CLEAR_LOCK':
+      case 'CLEAR_PICKING':
         return {};
       default:
         return state;
     }
   };
   
-  // details will be on the redux state at:
-  // state.details
-  export default lockReducer;
-  
+  // pickDetails will be on the redux state at:
+  // state.pickDetails
+  export default pickDetailsReducer;

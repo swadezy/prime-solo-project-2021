@@ -4,7 +4,8 @@ import axios from 'axios';
 // get request for all pickings
 function* fetchAllPickings(action) {
   try {
-    const pickings = yield axios.get(`/pickings/${action.payload.lock}/${action.payload.brand}/${action.payload.type}`);
+    // select effect? finds data from redux store, look into
+    const pickings = yield axios.get(`/pickings/all/${action.payload.lock}/${action.payload.brand}/${action.payload.type}`);
     yield put({ type: 'SET_PICKINGS', payload: pickings.data });
   } catch (error) {
     console.error('all pickings fetch error', error);
@@ -12,15 +13,14 @@ function* fetchAllPickings(action) {
 }
 
 // get request for details for one picking event
-// function* fetchDetails(action) {
-//   try {
-//     const lock = yield axios.get(`/locks/${action.payload}`);
-//     console.log('id', action.payload, 'received lock', lock.data);
-//     yield put({ type: 'SET_LOCK', payload: lock.data[0] });
-//   } catch (error) {
-//     console.error('lock details fetch error', error);
-//   }
-// }
+function* fetchPickDetails(action) {
+  try {
+    const picking = yield axios.get(`/pickings/${action.payload}`);
+    yield put({ type: 'SET_PICKING', payload: picking.data[0] });
+  } catch (error) {
+    console.error('picking details fetch error', error);
+  }
+}
 
 // post request to add a picking event
 function* postPicking(action) {
@@ -56,6 +56,7 @@ function* postPicking(action) {
 
 function* pickingsSaga() {
   yield takeEvery('FETCH_ALL_PICKINGS', fetchAllPickings);
+  yield takeEvery('FETCH_PICKING_DETAILS', fetchPickDetails);
   yield takeEvery('POST_PICKING', postPicking);
 }
 

@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function ViewHistory() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const pickings = useSelector((store) => store.pickings);
   const locks = useSelector((store) => store.locks);
   const brands = useSelector((store) => store.brands);
@@ -103,7 +105,13 @@ function ViewHistory() {
               <td>{picking.time_taken}</td>
               <td>{picking.date}</td>
               <td>
-                <button>Details</button>
+                <button
+                  onClick={() => {
+                    history.push({ pathname: `/pickDetails/${picking.id}` });
+                  }}
+                >
+                  Details
+                </button>
               </td>
             </tr>
           ))}
