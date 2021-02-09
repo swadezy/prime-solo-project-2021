@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
+import users from './users.reducer';
 import locks from './locks.reducer';
 import lockDetails from './lockDetails.reducer';
 import pickings from './pickings.reducer';
@@ -18,6 +19,7 @@ import types from './types.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
+  users,
   locks,
   lockDetails,
   pickings,

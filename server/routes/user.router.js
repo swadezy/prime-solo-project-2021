@@ -47,4 +47,19 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+// gets full list of users from db
+router.get('/all', (req, res) => {
+  console.log('in get users');
+  const queryText = (req.user.admin && `SELECT * FROM "users" ORDER BY "id" ASC;`);
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log('error in fetch users', error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

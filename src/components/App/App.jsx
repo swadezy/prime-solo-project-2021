@@ -12,6 +12,7 @@ import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import AdminRoute from '../AdminRoute/AdminRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
@@ -28,6 +29,7 @@ import LockDetails from '../LockDetails/LockDetails';
 import LockEdit from '../LockEdit/LockEdit';
 import PickingDetails from '../PickingDetails/PickingDetails';
 import PickingEdit from '../PickingEdit/PickingEdit';
+import Admin from '../Admin/Admin';
 
 import './App.css';
 
@@ -59,6 +61,16 @@ function App() {
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
+
+          {/* some cleanup needs to be done here */}
+          <AdminRoute
+            // logged in shows Admin else shows LoginPage
+            exact
+            path="/admin"
+          >
+            <Admin />
+          </AdminRoute>
+
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
@@ -143,6 +155,7 @@ function App() {
           {/* When a value is supplied for the authRedirect prop the user will
             be redirected to the path supplied when logged in, otherwise they will
             be taken to the component and path supplied. */}
+
           <ProtectedRoute
             // with authRedirect:
             // - if logged in, redirects to "/user"
@@ -175,7 +188,6 @@ function App() {
           >
             <LandingPage />
           </ProtectedRoute>
-
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
             <h1>404</h1>

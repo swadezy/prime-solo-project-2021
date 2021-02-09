@@ -29,7 +29,7 @@ function ProtectedRoute(props) {
 
   let ComponentToShow;
 
-  if (user.id) {
+  if (user.id && user.admin) {
     // if the user is logged in (only logged in users have ids)
     // show the component that is protected
     ComponentToShow = ComponentToProtect;

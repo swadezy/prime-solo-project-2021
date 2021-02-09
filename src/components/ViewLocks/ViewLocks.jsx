@@ -15,7 +15,7 @@ function ViewLocks() {
 
   return (
     <div>
-      <p>ViewLocks</p>
+      <p>View Locks</p>
       {locks && locks.map((lock) => <LockCard key={lock.id} lock={lock} />)}
     </div>
   );
