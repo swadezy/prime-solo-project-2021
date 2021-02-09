@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { Button } from '@material-ui/core';
+import { Button, TextField, Typography } from '@material-ui/core';
 
 // this view is used to add new locks to a user's account
 function AddLock() {
@@ -16,7 +16,7 @@ function AddLock() {
     nickname: '',
     brand_id: 0,
     type_id: 0,
-    num_pins: 0,
+    num_pins: '',
     img_url: '',
     notes: '',
   });
@@ -41,18 +41,18 @@ function AddLock() {
 
   return (
     <div>
-      <p>Add Lock</p>
+      <Typography variant="h5">Add Lock</Typography>
       <form onSubmit={handleAddLock}>
-        <span>Nickname -</span>
-        <input
+        <Typography display="inline">Nickname</Typography>
+        <TextField
+          variant="outlined"
           value={newLock.nickname}
           onChange={(event) =>
             setNewLock({ ...newLock, nickname: event.target.value })
           }
         />
         <br></br>
-
-        <span>Brand - </span>
+        <Typography display="inline">Brand</Typography>
         <select
           value={newLock.brand_id}
           onChange={(event) =>
@@ -69,7 +69,7 @@ function AddLock() {
         </select>
         <br></br>
 
-        <span>Type - </span>
+        <Typography display="inline">Type</Typography>
         <select
           value={newLock.type_id}
           onChange={(event) =>
@@ -86,7 +86,7 @@ function AddLock() {
         </select>
         <br></br>
 
-        <span>Number of Pins -</span>
+        <Typography display="inline">Number of Pins</Typography>
         <input
           value={newLock.num_pins}
           onChange={(event) =>
@@ -95,7 +95,7 @@ function AddLock() {
         />
         <br></br>
 
-        <span>Image Upload -</span>
+        <Typography display="inline">Image Upload</Typography>
         <input
           value={newLock.img_url}
           onChange={(event) =>
@@ -104,7 +104,7 @@ function AddLock() {
         />
         <br></br>
 
-        <span>Notes -</span>
+        <Typography display="inline">Notes</Typography>
         <input
           value={newLock.notes}
           onChange={(event) =>
