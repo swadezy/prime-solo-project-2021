@@ -12,12 +12,18 @@ router.get('/all/:lock/:brand/:type', rejectUnauthenticated, (req, res) => {
   JOIN "locks" ON "pickings".lock_id = "locks".id
   JOIN "brands" ON "locks".brand_id = "brands".id
   JOIN "types" ON "locks".type_id = "types".id
-  WHERE ("lock_id" = $1 OR $1 = 0)
-  AND ("brands".id = $2 OR $2 = 0)
-  AND ("types".id = $3 OR $3 = 0)
+  WHERE "pickings".user_id = $1
+  AND ("lock_id" = $2 OR $2 = 0)
+  AND ("brands".id = $3 OR $3 = 0)
+  AND ("types".id = $4 OR $4 = 0)
   ORDER BY "pickings".date ASC;`;
   pool
-    .query(queryText, [req.params.lock, req.params.brand, req.params.type])
+    .query(queryText, [
+      req.user.id,
+      req.params.lock,
+      req.params.brand,
+      req.params.type,
+    ])
     .then((result) => {
       console.log('received all pickings', result.rows);
       res.send(result.rows);
@@ -35,9 +41,10 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
   JOIN "locks" ON "pickings".lock_id = "locks".id
   JOIN "brands" ON "locks".brand_id = "brands".id
   JOIN "types" ON "locks".type_id = "types".id
-  WHERE "pickings".id = $1;`;
+  WHERE "pickings".user_id = $1
+  AND "pickings".id = $2;`;
   pool
-    .query(queryText, [req.params.id])
+    .query(queryText, [req.user.id, req.params.id])
     .then((result) => {
       console.log('received picking detail', result.rows);
       res.send(result.rows);
@@ -76,10 +83,12 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 router.put('/:id', rejectUnauthenticated, (req, res) => {
   console.log('in picking put, received', req.body);
   const queryText = `UPDATE "pickings"
-  SET "time_taken" = $1, "date" = $2, "notes" = $3
-  WHERE "id" = $4;`;
+  SET "time_taken" = $2, "date" = $3, "notes" = $4
+  WHERE "pickings".user_id = $1
+  AND "id" = $5;`;
   pool
     .query(queryText, [
+      req.user.id,
       req.body.time_taken,
       req.body.date,
       req.body.notes,
@@ -98,9 +107,9 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
 // deletes picking event from db
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
   console.log('in delete for picking id', req.params.id);
-  const queryText = `DELETE FROM "pickings" WHERE "id" = $1;`;
+  const queryText = `DELETE FROM "pickings" WHERE "pickings".user_id = $1 AND "id" = $2;`;
   pool
-    .query(queryText, [req.params.id])
+    .query(queryText, [req.user.id, req.params.id])
     .then((result) => {
       console.log('deleted picking event');
       res.sendStatus(200);

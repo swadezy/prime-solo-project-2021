@@ -20,6 +20,7 @@ function LockEdit() {
   const handleEdit = (event) => {
     event.preventDefault();
     dispatch({ type: 'UPDATE_LOCK', payload: lock });
+    dispatch({ type: 'CLEAR_LOCK' });
     history.push({ pathname: `/lockDetails/${lock.id}` });
   };
 
