@@ -27,6 +27,7 @@ import ViewHistory from '../ViewHistory/ViewHistory';
 import LockDetails from '../LockDetails/LockDetails';
 import LockEdit from '../LockEdit/LockEdit';
 import PickingDetails from '../PickingDetails/PickingDetails';
+import PickingEdit from '../PickingEdit/PickingEdit';
 
 import './App.css';
 
@@ -110,7 +111,7 @@ function App() {
           <ProtectedRoute
             // logged in shows dedicated LockDetails else shows LoginPage
             exact
-            path="/details/:id"
+            path="/lockDetails/:id"
           >
             <LockDetails />
           </ProtectedRoute>
@@ -118,17 +119,25 @@ function App() {
           <ProtectedRoute
             // logged in shows dedicated LockEdit else shows LoginPage
             exact
-            path="/edit/:id"
+            path="/lockEdit/:id"
           >
             <LockEdit />
           </ProtectedRoute>
 
           <ProtectedRoute
-            // logged in shows dedicated LockEdit else shows LoginPage
+            // logged in shows dedicated PickingDetails else shows LoginPage
             exact
             path="/pickDetails/:id"
           >
             <PickingDetails />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows dedicated PickingDetails else shows LoginPage
+            exact
+            path="/pickEdit/:id"
+          >
+            <PickingEdit />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will

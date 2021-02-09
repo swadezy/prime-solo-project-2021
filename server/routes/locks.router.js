@@ -70,7 +70,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 // updates lock in db
 router.put('/:id', rejectUnauthenticated, (req, res) => {
-  console.log('in put, received', req.body);
+  console.log('in lock put, received', req.body);
   const queryText = `UPDATE "locks"
   SET "nickname" = $1, "brand_id" = $2, "type_id" = $3, "num_pins" = $4, "img_url" = $5, "notes" = $6
   WHERE "id" = $7;`;

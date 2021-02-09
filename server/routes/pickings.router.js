@@ -72,31 +72,28 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
-// updates lock in db
-// router.put('/:id', rejectUnauthenticated, (req, res) => {
-//   console.log('in put, received', req.body);
-//   const queryText = `UPDATE "locks"
-//   SET "nickname" = $1, "brand_id" = $2, "type_id" = $3, "num_pins" = $4, "img_url" = $5, "notes" = $6
-//   WHERE "id" = $7;`;
-//   pool
-//     .query(queryText, [
-//       req.body.nickname,
-//       req.body.brand_id,
-//       req.body.type_id,
-//       req.body.num_pins,
-//       req.body.img_url,
-//       req.body.notes,
-//       req.body.id,
-//     ])
-//     .then((result) => {
-//       console.log('updated lock');
-//       res.sendStatus(200);
-//     })
-//     .catch((error) => {
-//       console.log('error in update lock', error);
-//       res.sendStatus(500);
-//     });
-// });
+// updates picking event in db
+router.put('/:id', rejectUnauthenticated, (req, res) => {
+  console.log('in picking put, received', req.body);
+  const queryText = `UPDATE "pickings"
+  SET "time_taken" = $1, "date" = $2, "notes" = $3
+  WHERE "id" = $4;`;
+  pool
+    .query(queryText, [
+      req.body.time_taken,
+      req.body.date,
+      req.body.notes,
+      req.body.id,
+    ])
+    .then((result) => {
+      console.log('updated picking');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('error in update lock', error);
+      res.sendStatus(500);
+    });
+});
 
 // deletes lock from db
 // router.delete('/:id', rejectUnauthenticated, (req, res) => {

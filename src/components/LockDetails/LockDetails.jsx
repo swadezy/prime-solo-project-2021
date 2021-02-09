@@ -16,8 +16,7 @@ function LockDetails() {
   }, []);
 
   const handleDelete = () => {
-    // swal alert?
-    console.log('clicked delete for lock', page.id);
+    // swal?
     dispatch({ type: 'DELETE_LOCK', payload: page.id });
     history.push('/viewLocks');
   };
@@ -39,7 +38,7 @@ function LockDetails() {
           <p>Notes : {lock.notes}</p>
           <button
             onClick={() => {
-              history.push({ pathname: `/edit/${lock.id}` });
+              history.push({ pathname: `/lockEdit/${lock.id}` });
             }}
           >
             Edit

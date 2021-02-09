@@ -33,15 +33,15 @@ function* postPicking(action) {
 }
 
 // put request to update a picking event
-// function* updateLock(action) {
-//   try {
-//     console.log('in update lock with lock', action.payload);
-//     yield axios.put(`/locks/${action.payload.id}`, action.payload);
-//     yield put({ type: 'FETCH_DETAILS' });
-//   } catch (error) {
-//     console.error('lock update error', error);
-//   }
-// }
+function* updatePicking(action) {
+  try {
+    console.log('in update picking with picking', action.payload);
+    yield axios.put(`/pickings/${action.payload.id}`, action.payload);
+    yield put({ type: 'FETCH_DETAILS' });
+  } catch (error) {
+    console.error('lock update error', error);
+  }
+}
 
 // delete request to delete a picking event
 // function* deleteLock(action) {
@@ -58,6 +58,7 @@ function* pickingsSaga() {
   yield takeEvery('FETCH_ALL_PICKINGS', fetchAllPickings);
   yield takeEvery('FETCH_PICKING_DETAILS', fetchPickDetails);
   yield takeEvery('POST_PICKING', postPicking);
+  yield takeEvery('UPDATE_PICKING', updatePicking);
 }
 
 export default pickingsSaga;

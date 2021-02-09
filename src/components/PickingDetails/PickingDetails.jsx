@@ -36,18 +36,19 @@ function PickingDetails() {
           <p>Lock : {picking.nickname}</p>
           <p>Time Taken : {picking.time_taken}</p>
           <p>Date : {picking.date}</p>
+          <p>Notes : {picking.notes}</p>
           {/* success */}
           <p>Brand : {picking.brand}</p>
           <p>Type : {picking.type}</p>
           <p>Number of Pins : {picking.num_pins}</p>
           <p>Lock Notes : {picking.lock_notes}</p>
-          {/* <button
+          <button
             onClick={() => {
-              history.push({ pathname: `/edit/${lock.id}` });
+              history.push({ pathname: `/pickEdit/${picking.id}` });
             }}
           >
             Edit
-          </button> */}
+          </button>
           <button onClick={handleDelete}>Delete</button>
           <button onClick={routeBack}>Back</button>
         </div>

@@ -20,13 +20,13 @@ function LockEdit() {
   const handleEdit = (event) => {
     event.preventDefault();
     dispatch({ type: 'UPDATE_LOCK', payload: lock });
-    history.push({ pathname: `/details/${lock.id}` });
+    history.push({ pathname: `/lockDetails/${lock.id}` });
   };
 
   const routeBack = () => {
     // where do I put these clear reducers? in client or in sagas?
     dispatch({ type: 'CLEAR_LOCK' });
-    history.push({ pathname: `/details/${lock.id}` });
+    history.push({ pathname: `/lockDetails/${lock.id}` });
   };
 
   return (
