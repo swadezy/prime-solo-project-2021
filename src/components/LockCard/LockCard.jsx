@@ -14,6 +14,9 @@ import {
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
   media: {
     height: 140,
