@@ -13,6 +13,11 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 // this view is used to add new locks to a user's account
 function AddPicking() {
@@ -25,7 +30,7 @@ function AddPicking() {
     lock_id: 0,
     success: 0,
     time_taken: '',
-    date: '2000-01-01',
+    date: Date(),
     notes: '',
   });
 
@@ -62,7 +67,10 @@ function AddPicking() {
                   label="Select"
                   value={newPicking.lock_id}
                   onChange={(event) =>
-                    setNewLock({ ...newPicking, lock_id: event.target.value })
+                    setNewPicking({
+                      ...newPicking,
+                      lock_id: event.target.value,
+                    })
                   }
                 >
                   <MenuItem value={0}>...</MenuItem>
@@ -86,7 +94,10 @@ function AddPicking() {
                   label="Select"
                   value={newPicking.success}
                   onChange={(event) =>
-                    setNewLock({ ...newPicking, success: event.target.value })
+                    setNewPicking({
+                      ...newPicking,
+                      success: event.target.value,
+                    })
                   }
                 >
                   <MenuItem value={0}>...</MenuItem>
@@ -104,7 +115,7 @@ function AddPicking() {
                   fullWidth
                   value={newPicking.time_taken}
                   onChange={(event) =>
-                    setNewLock({
+                    setNewPicking({
                       ...newPicking,
                       time_taken: event.target.value,
                     })
@@ -114,17 +125,33 @@ function AddPicking() {
               <Grid item xs={6} sm={2}>
                 <Typography variant="h6">Date</Typography>
               </Grid>
-              <Grid item xs={6} sm={4}>
+              {/* <Grid item xs={6} sm={4}>
                 <TextField
                   variant="outlined"
                   color="secondary"
                   fullWidth
                   value={newPicking.date}
                   onChange={(event) =>
-                    setNewLock({ ...newPicking, date: event.target.value })
+                    setNewPicking({ ...newPicking, date: event.target.value })
                   }
                 />
+              </Grid> */}
+              <Grid item xs={6} sm={4}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    autoOk
+                    variant="inline"
+                    inputVariant="outlined"
+                    format="MM/dd/yyyy"
+                    value={newPicking.date}
+                    InputAdornmentProps={{ position: 'start' }}
+                    onChange={(date) =>
+                      setNewPicking({ ...newPicking, date: date })
+                    }
+                  />
+                </MuiPickersUtilsProvider>
               </Grid>
+
               <Grid item xs={12} sm={2}>
                 <Typography display="inline" variant="h6">
                   Notes
@@ -139,7 +166,7 @@ function AddPicking() {
                   rows={2}
                   value={newPicking.notes}
                   onChange={(event) =>
-                    setNewLock({ ...newPicking, notes: event.target.value })
+                    setNewPicking({ ...newPicking, notes: event.target.value })
                   }
                 />
               </Grid>
