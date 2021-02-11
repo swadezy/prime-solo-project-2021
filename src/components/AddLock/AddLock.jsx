@@ -6,11 +6,9 @@ import {
   Box,
   Button,
   Container,
-  FormLabel,
   Grid,
   MenuItem,
   Paper,
-  Select,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -55,7 +53,7 @@ function AddLock() {
       <Paper>
         <Box m={3} p={3}>
           <form onSubmit={handleAddLock}>
-            <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={3} alignItems="center">
               <Grid item xs={12}>
                 <Typography variant="h5">Add Lock</Typography>
               </Grid>
@@ -179,12 +177,12 @@ function AddLock() {
                   }
                 />
               </Grid>
-              <Grid container item xs={12} sm={6} justify="flex-end">
+              <Grid container item xs={12} sm={6}>
                 <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
                   Submit
                 </Button>
               </Grid>
-              <Grid container item xs={12} sm={6} justify="flex-end" >
+              <Grid container item xs={12} sm={6}>
                 <Button
                   variant="contained"
                   color="default"

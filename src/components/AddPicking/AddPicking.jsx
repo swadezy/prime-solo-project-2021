@@ -2,6 +2,18 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  InputAdornment,
+  MenuItem,
+  Paper,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+
 // this view is used to add new locks to a user's account
 function AddPicking() {
   const dispatch = useDispatch();
@@ -12,7 +24,7 @@ function AddPicking() {
   const [newPicking, setNewPicking] = useState({
     lock_id: 0,
     success: 0,
-    time_taken: 0,
+    time_taken: '',
     date: '2000-01-01',
     notes: '',
   });
@@ -30,71 +42,136 @@ function AddPicking() {
   };
 
   return (
-    <div>
-      <p>Add Picking</p>
-      <form onSubmit={handleAddPicking}>
-        <span>Lock - </span>
-        <select
-          value={newPicking.lock_id}
-          onChange={(event) =>
-            setNewPicking({ ...newPicking, lock_id: event.target.value })
-          }
-        >
-          <option value={0}>...select lock</option>
-          {locks &&
-            locks.map((lock) => (
-              <option key={lock.id} value={lock.id}>
-                {lock.nickname}
-              </option>
-            ))}
-        </select>
-        <br></br>
-        <span>Success - </span>
-        <select
-          value={newPicking.success}
-          onChange={(event) =>
-            setNewPicking({ ...newPicking, success: event.target.value })
-          }
-        >
-          <option value={0}>...select</option>
-          <option value={true}>true</option>
-          <option value={false}>false</option>
-        </select>
-        <br></br>
-        <span>Time Taken -</span>
-        <input
-          value={newPicking.time_taken}
-          onChange={(event) =>
-            setNewPicking({ ...newPicking, time_taken: event.target.value })
-          }
-        />
-        <br></br>
-        <span>Date -</span>
-        <input
-          value={newPicking.date}
-          onChange={(event) =>
-            setNewPicking({ ...newPicking, date: event.target.value })
-          }
-        />
-        <br></br>
-        <span>Notes -</span>
-        <input
-          value={newPicking.notes}
-          onChange={(event) =>
-            setNewPicking({ ...newPicking, notes: event.target.value })
-          }
-        />
-        <br></br>
-        <button type="submit">Submit</button>
-        <button
-          onClick={() => {
-            history.push('/');
-          }}
-        >
-          Cancel
-        </button>
-      </form>
-    </div>
+    <Container maxWidth="md">
+      <Paper>
+        <Box m={3} p={3}>
+          <form onSubmit={handleAddPicking}>
+            <Grid container spacing={3} alignItems="center">
+              <Grid item xs={12}>
+                <Typography variant="h5">Add Picking</Typography>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Typography variant="h6">Lock</Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  color="secondary"
+                  variant="outlined"
+                  fullWidth
+                  select
+                  label="Select"
+                  value={newPicking.lock_id}
+                  onChange={(event) =>
+                    setNewLock({ ...newPicking, lock_id: event.target.value })
+                  }
+                >
+                  <MenuItem value={0}>...</MenuItem>
+                  {locks &&
+                    locks.map((lock) => (
+                      <MenuItem key={lock.id} value={lock.id}>
+                        {lock.nickname}
+                      </MenuItem>
+                    ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Typography variant="h6">Success</Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  color="secondary"
+                  variant="outlined"
+                  fullWidth
+                  select
+                  label="Select"
+                  value={newPicking.success}
+                  onChange={(event) =>
+                    setNewLock({ ...newPicking, success: event.target.value })
+                  }
+                >
+                  <MenuItem value={0}>...</MenuItem>
+                  <MenuItem value={true}>true</MenuItem>
+                  <MenuItem value={false}>false</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Typography variant="h6">Time Taken</Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  value={newPicking.time_taken}
+                  onChange={(event) =>
+                    setNewLock({
+                      ...newPicking,
+                      time_taken: event.target.value,
+                    })
+                  }
+                />
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Typography variant="h6">Date</Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  value={newPicking.date}
+                  onChange={(event) =>
+                    setNewLock({ ...newPicking, date: event.target.value })
+                  }
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <Typography display="inline" variant="h6">
+                  Notes
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <TextField
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={newPicking.notes}
+                  onChange={(event) =>
+                    setNewLock({ ...newPicking, notes: event.target.value })
+                  }
+                />
+              </Grid>
+              <Grid container item xs={12} sm={6}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  fullWidth
+                >
+                  Submit
+                </Button>
+              </Grid>
+              <Grid container item xs={12} sm={6}>
+                <Button
+                  variant="contained"
+                  color="default"
+                  size="large"
+                  fullWidth
+                  onClick={() => {
+                    history.push('/');
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
 
