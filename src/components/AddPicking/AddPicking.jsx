@@ -9,6 +9,7 @@ import {
   Grid,
   InputAdornment,
   MenuItem,
+  OutlinedInput,
   Paper,
   TextField,
   Typography,
@@ -109,10 +110,11 @@ function AddPicking() {
                 <Typography variant="h6">Time Taken</Typography>
               </Grid>
               <Grid item xs={6} sm={4}>
-                <TextField
+                <OutlinedInput
                   variant="outlined"
                   color="secondary"
                   fullWidth
+                  endAdornment={<InputAdornment position="end">seconds</InputAdornment>}
                   value={newPicking.time_taken}
                   onChange={(event) =>
                     setNewPicking({
@@ -125,17 +127,6 @@ function AddPicking() {
               <Grid item xs={6} sm={2}>
                 <Typography variant="h6">Date</Typography>
               </Grid>
-              {/* <Grid item xs={6} sm={4}>
-                <TextField
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  value={newPicking.date}
-                  onChange={(event) =>
-                    setNewPicking({ ...newPicking, date: event.target.value })
-                  }
-                />
-              </Grid> */}
               <Grid item xs={6} sm={4}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
@@ -144,7 +135,7 @@ function AddPicking() {
                     inputVariant="outlined"
                     format="MM/dd/yyyy"
                     value={newPicking.date}
-                    InputAdornmentProps={{ position: 'start' }}
+                    InputAdornmentProps={{ position: 'end' }}
                     onChange={(date) =>
                       setNewPicking({ ...newPicking, date: date })
                     }
