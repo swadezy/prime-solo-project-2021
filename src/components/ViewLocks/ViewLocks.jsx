@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LockCard from '../LockCard/LockCard';
 
+import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
+
 // this component shows the user all locks currently tied to their account
 function ViewLocks() {
   const dispatch = useDispatch();
@@ -14,10 +16,19 @@ function ViewLocks() {
   }, []);
 
   return (
-    <div>
-      <p>View Locks</p>
-      {locks && locks.map((lock) => <LockCard key={lock.id} lock={lock} />)}
-    </div>
+    <Container maxWidth="lg">
+      <Grid container spacing={3} alignItems="stretch">
+        <Grid item xs={12}>
+          <Typography variant="h5">View Locks</Typography>
+        </Grid>
+        {locks &&
+          locks.map((lock) => (
+            <Grid key={lock.id} item xs={12} sm={6} md={3}>
+              <LockCard lock={lock} />
+            </Grid>
+          ))}
+      </Grid>
+    </Container>
   );
 }
 
