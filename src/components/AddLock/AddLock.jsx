@@ -2,7 +2,18 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { Button, TextField, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  FormLabel,
+  Grid,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 
 // this view is used to add new locks to a user's account
 function AddLock() {
@@ -40,92 +51,157 @@ function AddLock() {
   };
 
   return (
-    <div>
-      <Typography variant="h5">Add Lock</Typography>
-      <form onSubmit={handleAddLock}>
-        <Typography display="inline">Nickname</Typography>
-        <TextField
-          variant="outlined"
-          value={newLock.nickname}
-          onChange={(event) =>
-            setNewLock({ ...newLock, nickname: event.target.value })
-          }
-        />
-        <br></br>
-        <Typography display="inline">Brand</Typography>
-        <select
-          value={newLock.brand_id}
-          onChange={(event) =>
-            setNewLock({ ...newLock, brand_id: event.target.value })
-          }
-        >
-          <option value={0}>...select brand</option>
-          {brands &&
-            brands.map((brand) => (
-              <option key={brand.id} value={brand.id}>
-                {brand.brand}
-              </option>
-            ))}
-        </select>
-        <br></br>
+    <Container maxWidth="md">
+      <Paper>
+        <Box m={3} p={3}>
+          <form onSubmit={handleAddLock}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12}>
+                <Typography variant="h5">Add Lock</Typography>
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <Typography variant="h6">Nickname</Typography>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <TextField
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  value={newLock.nickname}
+                  onChange={(event) =>
+                    setNewLock({ ...newLock, nickname: event.target.value })
+                  }
+                />
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Typography display="inline" variant="h6">
+                  Brand
+                </Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  color="secondary"
+                  variant="outlined"
+                  fullWidth
+                  select
+                  label="Select"
+                  value={newLock.brand_id}
+                  onChange={(event) =>
+                    setNewLock({ ...newLock, brand_id: event.target.value })
+                  }
+                >
+                  <MenuItem value={0}>...</MenuItem>
+                  {brands &&
+                    brands.map((brand) => (
+                      <MenuItem key={brand.id} value={brand.id}>
+                        {brand.brand}
+                      </MenuItem>
+                    ))}
+                </TextField>
+              </Grid>
 
-        <Typography display="inline">Type</Typography>
-        <select
-          value={newLock.type_id}
-          onChange={(event) =>
-            setNewLock({ ...newLock, type_id: event.target.value })
-          }
-        >
-          <option value={0}>...select type</option>
-          {types &&
-            types.map((type) => (
-              <option key={type.id} value={type.id}>
-                {type.type}
-              </option>
-            ))}
-        </select>
-        <br></br>
+              <Grid item xs={6} sm={2}>
+                <Typography display="inline" variant="h6">
+                  Type
+                </Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  color="secondary"
+                  variant="outlined"
+                  fullWidth
+                  select
+                  label="Select"
+                  value={newLock.type_id}
+                  onChange={(event) =>
+                    setNewLock({ ...newLock, type_id: event.target.value })
+                  }
+                >
+                  <MenuItem value={0}>...</MenuItem>
+                  {types &&
+                    types.map((type) => (
+                      <MenuItem key={type.id} value={type.id}>
+                        {type.type}
+                      </MenuItem>
+                    ))}
+                </TextField>
+              </Grid>
 
-        <Typography display="inline">Number of Pins</Typography>
-        <input
-          value={newLock.num_pins}
-          onChange={(event) =>
-            setNewLock({ ...newLock, num_pins: event.target.value })
-          }
-        />
-        <br></br>
+              <Grid item xs={6} sm={2}>
+                <Typography display="inline" variant="h6">
+                  # of Pins
+                </Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  value={newLock.num_pins}
+                  onChange={(event) =>
+                    setNewLock({ ...newLock, num_pins: event.target.value })
+                  }
+                />
+              </Grid>
 
-        <Typography display="inline">Image Upload</Typography>
-        <input
-          value={newLock.img_url}
-          onChange={(event) =>
-            setNewLock({ ...newLock, img_url: event.target.value })
-          }
-        />
-        <br></br>
+              <Grid item xs={6} sm={2}>
+                <Typography display="inline" variant="h6">
+                  Image Upload
+                </Typography>
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <TextField
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  value={newLock.img_url}
+                  onChange={(event) =>
+                    setNewLock({ ...newLock, img_url: event.target.value })
+                  }
+                />
+              </Grid>
 
-        <Typography display="inline">Notes</Typography>
-        <input
-          value={newLock.notes}
-          onChange={(event) =>
-            setNewLock({ ...newLock, notes: event.target.value })
-          }
-        />
-        <br></br>
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            history.push('/');
-          }}
-        >
-          Cancel
-        </Button>
-      </form>
-    </div>
+              <Grid item xs={12} sm={2}>
+                <Typography display="inline" variant="h6">
+                  Notes
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <TextField
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={newLock.notes}
+                  onChange={(event) =>
+                    setNewLock({ ...newLock, notes: event.target.value })
+                  }
+                />
+              </Grid>
+              <Grid container item xs={12} sm={6} justify="flex-end">
+                <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
+                  Submit
+                </Button>
+              </Grid>
+              <Grid container item xs={12} sm={6} justify="flex-end" >
+                <Button
+                  variant="contained"
+                  color="default"
+                  size="large"
+                  fullWidth
+                  onClick={() => {
+                    history.push('/');
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
 

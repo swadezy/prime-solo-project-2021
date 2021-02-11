@@ -32,16 +32,16 @@ import PickingEdit from '../PickingEdit/PickingEdit';
 import Admin from '../Admin/Admin';
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { green, yellow } from '@material-ui/core/colors';
+import { green, yellow, deepOrange } from '@material-ui/core/colors';
 import './App.css';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: green[600],
+      main: deepOrange[900],
     },
     secondary: {
-      main: yellow[800],
+      main: green[400],
     },
   },
 });
