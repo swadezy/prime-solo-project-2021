@@ -25,7 +25,6 @@ import AddLock from '../AddLock/AddLock';
 import ViewLocks from '../ViewLocks/ViewLocks';
 import AddPicking from '../AddPicking/AddPicking';
 import ViewHistory from '../ViewHistory/ViewHistory';
-import LockDetails from '../LockDetails/LockDetails';
 import LockEdit from '../LockEdit/LockEdit';
 import PickingDetails from '../PickingDetails/PickingDetails';
 import PickingEdit from '../PickingEdit/PickingEdit';
@@ -130,14 +129,6 @@ function App() {
               path="/viewHistory"
             >
               <ViewHistory />
-            </ProtectedRoute>
-
-            <ProtectedRoute
-              // logged in shows dedicated LockDetails else shows LoginPage
-              exact
-              path="/lockDetails/:id"
-            >
-              <LockDetails />
             </ProtectedRoute>
 
             <ProtectedRoute
