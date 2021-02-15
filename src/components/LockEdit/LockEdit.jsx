@@ -43,6 +43,13 @@ function LockEdit() {
     history.push({ pathname: '/viewLocks' });
   };
 
+  const handleDelete = () => {
+    dispatch({ type: 'DELETE_LOCK', payload: lock.id });
+    dispatch({ type: 'CLEAR_LOCKS' });
+    dispatch({ type: 'FETCH_ALL_LOCKS' });
+    history.push({ pathname: '/viewLocks' });
+  };
+
   return (
     <Container maxWidth="md">
       <Paper>
@@ -58,11 +65,7 @@ function LockEdit() {
                   variant="outlined"
                   startIcon={<DeleteForeverIcon />}
                   aria-label="Delete lock"
-                  // onClick={() =>
-                  //   dispatch({
-                  //     type: 'FETCH_ALL_PICKINGS',
-                  //   })
-                  // }
+                  onClick={handleDelete}
                 >
                   Delete
                 </Button>
