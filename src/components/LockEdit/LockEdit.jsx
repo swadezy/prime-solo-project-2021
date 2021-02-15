@@ -18,15 +18,16 @@ function LockEdit() {
   const page = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const lock = useSelector((store) => store.lockDetails);
-  const brands = useSelector((store) => store.brands);
-  const types = useSelector((store) => store.types);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_LOCK_DETAILS', payload: page.id });
     dispatch({ type: 'FETCH_BRANDS' });
     dispatch({ type: 'FETCH_TYPES' });
   }, []);
+
+  const lock = useSelector((store) => store.lockDetails);
+  const brands = useSelector((store) => store.brands);
+  const types = useSelector((store) => store.types);
 
   const handleEdit = (event) => {
     event.preventDefault();
@@ -69,61 +70,61 @@ function LockEdit() {
                   Brand
                 </Typography>
               </Grid>
-              <Grid item xs={6} sm={4}>
-                <TextField
-                  color="secondary"
-                  variant="outlined"
-                  fullWidth
-                  select
-                  label="Select"
-                  value={lock.brand_id}
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'SET_LOCK',
-                      payload: { ...lock, brand_id: event.target.value },
-                    })
-                  }
-                >
-                  <MenuItem value={0}>...</MenuItem>
-                  {brands &&
-                    brands.map((brand) => (
+              {brands.length && (
+                <Grid item xs={6} sm={4}>
+                  <TextField
+                    color="secondary"
+                    variant="outlined"
+                    fullWidth
+                    select
+                    label="Select"
+                    value={lock.brand_id}
+                    onChange={(event) =>
+                      dispatch({
+                        type: 'SET_LOCK',
+                        payload: { ...lock, brand_id: event.target.value },
+                      })
+                    }
+                  >
+                    <MenuItem value={0}>...</MenuItem>
+                    {brands?.map((brand) => (
                       <MenuItem key={brand.id} value={brand.id}>
                         {brand.brand}
                       </MenuItem>
                     ))}
-                </TextField>
-              </Grid>
-
+                  </TextField>
+                </Grid>
+              )}
               <Grid item xs={6} sm={2}>
                 <Typography display="inline" variant="h6">
                   Type
                 </Typography>
               </Grid>
-              <Grid item xs={6} sm={4}>
-                <TextField
-                  color="secondary"
-                  variant="outlined"
-                  fullWidth
-                  select
-                  label="Select"
-                  value={lock.type_id}
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'SET_LOCK',
-                      payload: { ...lock, type_id: event.target.value },
-                    })
-                  }
-                >
-                  <MenuItem value={0}>...</MenuItem>
-                  {types &&
-                    types.map((type) => (
+              {types.length && (
+                <Grid item xs={6} sm={4}>
+                  <TextField
+                    color="secondary"
+                    variant="outlined"
+                    fullWidth
+                    select
+                    label="Select"
+                    value={lock.type_id}
+                    onChange={(event) =>
+                      dispatch({
+                        type: 'SET_LOCK',
+                        payload: { ...lock, type_id: event.target.value },
+                      })
+                    }
+                  >
+                    <MenuItem value={0}>...</MenuItem>
+                    {types?.map((type) => (
                       <MenuItem key={type.id} value={type.id}>
                         {type.type}
                       </MenuItem>
                     ))}
-                </TextField>
-              </Grid>
-
+                  </TextField>
+                </Grid>
+              )}
               <Grid item xs={6} sm={2}>
                 <Typography display="inline" variant="h6">
                   # of Pins
@@ -185,7 +186,13 @@ function LockEdit() {
                 />
               </Grid>
               <Grid container item xs={12} sm={6}>
-                <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  fullWidth
+                >
                   Submit
                 </Button>
               </Grid>

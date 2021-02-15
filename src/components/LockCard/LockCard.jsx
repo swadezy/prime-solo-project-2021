@@ -15,13 +15,14 @@ import {
   CardHeader,
   CardMedia,
   Collapse,
+  Tooltip,
   IconButton,
   Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
-import LockIcon from '@material-ui/icons/Lock';
 import TimelineIcon from '@material-ui/icons/Timeline';
+import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 
 const useStyles = makeStyles((theme) => ({
@@ -64,6 +65,7 @@ function LockCard({ lock }) {
   };
 
   const handleRouteHistory = () => {
+    dispatch({ type: 'CLEAR_PICKINGS' });
     dispatch({
       type: 'SET_FILTER',
       payload: lock.id,
@@ -89,10 +91,8 @@ function LockCard({ lock }) {
             image={image}
           />
         </CardActionArea>
-
         <CardActions className={classes.actions}>
           {/* find if lock is picked or not and show icon */}
-
           <Button
             startIcon={<TimelineIcon />}
             color="primary"
@@ -109,16 +109,18 @@ function LockCard({ lock }) {
           >
             Edit
           </Button>
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
+          <Tooltip title="Expand">
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          </Tooltip>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
