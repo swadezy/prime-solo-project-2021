@@ -19,7 +19,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
 import LockIcon from '@material-ui/icons/Lock';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 
 const useStyles = makeStyles((theme) => ({
@@ -79,11 +81,7 @@ function LockCard({ lock }) {
             lock.brand + ' | ' + lock.type + ' | ' + lock.num_pins + ' pins'
           }
         />
-        <CardActionArea
-          onClick={() => {
-            history.push({ pathname: `/lockDetails/${lock.id}` });
-          }}
-        >
+        <CardActionArea onClick={handleExpandClick}>
           <CardMedia
             component="img"
             className={classes.media}
@@ -95,8 +93,21 @@ function LockCard({ lock }) {
         <CardActions className={classes.actions}>
           {/* find if lock is picked or not and show icon */}
 
-          <Button color="primary" onClick={handleRouteHistory}>
+          <Button
+            startIcon={<TimelineIcon />}
+            color="primary"
+            onClick={handleRouteHistory}
+          >
             History
+          </Button>
+          <Button
+            startIcon={<EditIcon />}
+            color="secondary"
+            onClick={() => {
+              history.push({ pathname: `/lockEdit/${lock.id}` });
+            }}
+          >
+            Edit
           </Button>
           <IconButton
             className={clsx(classes.expand, {
