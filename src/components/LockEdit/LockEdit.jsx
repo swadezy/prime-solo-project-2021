@@ -11,7 +11,6 @@ import {
   Paper,
   TextField,
   Typography,
-  Tooltip,
   IconButton,
 } from '@material-ui/core';
 
@@ -44,7 +43,7 @@ function LockEdit() {
   };
 
   const handleDelete = () => {
-    dispatch({ type: 'DELETE_LOCK', payload: lock.id });
+    dispatch({ type: 'DELETE_LOCK', payload: lock?.id });
     dispatch({ type: 'CLEAR_LOCKS' });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
     history.push({ pathname: '/viewLocks' });
@@ -73,26 +72,28 @@ function LockEdit() {
               <Grid item xs={12} sm={2}>
                 <Typography variant="h6">Nickname</Typography>
               </Grid>
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  value={lock.nickname}
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'SET_LOCK',
-                      payload: { ...lock, nickname: event.target.value },
-                    })
-                  }
-                />
-              </Grid>
+              {lock.nickname && (
+                <Grid item xs={12} sm={10}>
+                  <TextField
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                    value={lock?.nickname}
+                    onChange={(event) =>
+                      dispatch({
+                        type: 'SET_LOCK',
+                        payload: { ...lock, nickname: event.target.value },
+                      })
+                    }
+                  />
+                </Grid>
+              )}
               <Grid item xs={6} sm={2}>
                 <Typography display="inline" variant="h6">
                   Brand
                 </Typography>
               </Grid>
-              {brands.length && (
+              {brands.length && lock.brand_id && (
                 <Grid item xs={6} sm={4}>
                   <TextField
                     color="secondary"
@@ -100,7 +101,7 @@ function LockEdit() {
                     fullWidth
                     select
                     label="Select"
-                    value={lock.brand_id}
+                    value={lock?.brand_id}
                     onChange={(event) =>
                       dispatch({
                         type: 'SET_LOCK',
@@ -122,7 +123,7 @@ function LockEdit() {
                   Type
                 </Typography>
               </Grid>
-              {types.length && (
+              {types.length && lock.type_id && (
                 <Grid item xs={6} sm={4}>
                   <TextField
                     color="secondary"
@@ -130,7 +131,7 @@ function LockEdit() {
                     fullWidth
                     select
                     label="Select"
-                    value={lock.type_id}
+                    value={lock?.type_id}
                     onChange={(event) =>
                       dispatch({
                         type: 'SET_LOCK',
@@ -152,61 +153,66 @@ function LockEdit() {
                   # of Pins
                 </Typography>
               </Grid>
-              <Grid item xs={6} sm={4}>
-                <TextField
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  value={lock.num_pins}
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'SET_LOCK',
-                      payload: { ...lock, num_pins: event.target.value },
-                    })
-                  }
-                />
-              </Grid>
-
+              {lock.num_pins && (
+                <Grid item xs={6} sm={4}>
+                  <TextField
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                    value={lock?.num_pins}
+                    onChange={(event) =>
+                      dispatch({
+                        type: 'SET_LOCK',
+                        payload: { ...lock, num_pins: event.target.value },
+                      })
+                    }
+                  />
+                </Grid>
+              )}
               <Grid item xs={6} sm={2}>
                 <Typography display="inline" variant="h6">
                   Image Upload
                 </Typography>
               </Grid>
-              <Grid item xs={6} sm={4}>
-                <TextField
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  value={lock.img_url}
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'SET_LOCK',
-                      payload: { ...lock, img_url: event.target.value },
-                    })
-                  }
-                />
-              </Grid>
+              {lock.img_url && (
+                <Grid item xs={6} sm={4}>
+                  <TextField
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                    value={lock?.img_url}
+                    onChange={(event) =>
+                      dispatch({
+                        type: 'SET_LOCK',
+                        payload: { ...lock, img_url: event.target.value },
+                      })
+                    }
+                  />
+                </Grid>
+              )}
               <Grid item xs={12} sm={2}>
                 <Typography display="inline" variant="h6">
                   Notes
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  multiline
-                  rows={2}
-                  value={lock.notes}
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'SET_LOCK',
-                      payload: { ...lock, notes: event.target.value },
-                    })
-                  }
-                />
-              </Grid>
+              {lock.notes && (
+                <Grid item xs={12} sm={10}>
+                  <TextField
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                    multiline
+                    rows={2}
+                    value={lock?.notes}
+                    onChange={(event) =>
+                      dispatch({
+                        type: 'SET_LOCK',
+                        payload: { ...lock, notes: event.target.value },
+                      })
+                    }
+                  />
+                </Grid>
+              )}
               <Grid container item xs={12} sm={6}>
                 <Button
                   type="submit"
