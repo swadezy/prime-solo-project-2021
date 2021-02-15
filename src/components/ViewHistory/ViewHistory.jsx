@@ -22,14 +22,15 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Box from '@material-ui/core/Box';
-import DeleteIcon from '@material-ui/icons/Delete';
+import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 function ViewHistory() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('in history page load')
+    console.log('in history page load');
     dispatch({ type: 'FETCH_ALL_PICKINGS', payload: filter });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
   }, []);
@@ -65,18 +66,17 @@ function ViewHistory() {
   }
 
   const headCells = [
-    // numeric true here for spacing
-    { id: 'success', numeric: true, disablePadding: true, label: 'Solved' },
-    { id: 'nickname', numeric: false, disablePadding: false, label: 'Lock' },
-    { id: 'brand', numeric: false, disablePadding: false, label: 'Brand' },
-    { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
+    { id: 'success', align: 'center', disablePadding: false, label: 'Solved' },
+    { id: 'nickname', align: 'left', disablePadding: false, label: 'Lock' },
+    { id: 'brand', align: 'left', disablePadding: false, label: 'Brand' },
+    { id: 'type', align: 'left', disablePadding: false, label: 'Type' },
     {
       id: 'time_taken',
-      numeric: true,
+      align: 'right',
       disablePadding: false,
       label: 'Time Taken',
     },
-    { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
+    { id: 'date', align: 'left', disablePadding: false, label: 'Date' },
   ];
 
   function EnhancedTableHead(props) {
@@ -91,7 +91,7 @@ function ViewHistory() {
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? 'right' : 'left'}
+              align={headCell.align}
               padding={headCell.disablePadding ? 'none' : 'default'}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -317,16 +317,15 @@ function ViewHistory() {
                         onClick={(event) => handleClick(event, row.name)}
                         tabIndex={-1}
                         key={row.name}
-                        //   selected={isItemSelected}
                       >
                         <TableCell
                           component="th"
                           id={labelId}
                           scope="row"
                           padding="none"
-                          align="right"
+                          align="center"
                         >
-                          {row.success ? 'Yes' : 'No'}
+                          {row.success ? <LockOpenIcon /> : <LockIcon />}
                         </TableCell>
                         <TableCell>{row.nickname}</TableCell>
                         <TableCell>{row.brand}</TableCell>
