@@ -5,7 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -24,7 +23,7 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-function ViewHistory() {
+function NewTable() {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -166,7 +165,7 @@ function ViewHistory() {
         ) : (
           <Typography
             className={classes.title}
-            variant="h5"
+            variant="h6"
             id="tableTitle"
             component="div"
           >
@@ -174,7 +173,7 @@ function ViewHistory() {
           </Typography>
         )}
 
-        {/* {numSelected > 0 ? (
+        {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="delete">
               <DeleteIcon />
@@ -186,7 +185,7 @@ function ViewHistory() {
               <FilterListIcon />
             </IconButton>
           </Tooltip>
-        )} */}
+        )}
       </Toolbar>
     );
   };
@@ -224,6 +223,7 @@ function ViewHistory() {
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event, property) => {
@@ -261,15 +261,24 @@ function ViewHistory() {
     setPage(0);
   };
 
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
+
+  const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
   return (
-    <Container maxWidth="lg">
-      <TableContainer component={Paper} className={classes.paper}>
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size="medium"
+            size={dense ? 'small' : 'medium'}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -289,10 +298,18 @@ function ViewHistory() {
                     <TableRow
                       hover
                       onClick={(event) => handleClick(event, row.name)}
+                      //   role="checkbox"
+                      //   aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.name}
                       //   selected={isItemSelected}
                     >
+                      {/* <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </TableCell> */}
                       <TableCell
                         component="th"
                         id={labelId}
@@ -327,131 +344,13 @@ function ViewHistory() {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </TableContainer>
-    </Container>
+      </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
+    </div>
   );
 }
 
-// function ViewHistory() {
-//   const dispatch = useDispatch();
-//   const history = useHistory();
-//   const pickings = useSelector((store) => store.pickings);
-//   const locks = useSelector((store) => store.locks);
-//   const brands = useSelector((store) => store.brands);
-//   const types = useSelector((store) => store.types);
-//   const filter = useSelector((store) => store.filter);
-
-//   useEffect(() => {
-//     dispatch({ type: 'FETCH_ALL_PICKINGS' });
-//     dispatch({ type: 'FETCH_ALL_LOCKS' });
-//     dispatch({ type: 'FETCH_BRANDS' });
-//     dispatch({ type: 'FETCH_TYPES' });
-//   }, []);
-
-//   return (
-//     <Container maxWidth="lg">
-//       <NewTable />
-
-//       <span>Lock - </span>
-//       <select
-//         value={filter.lock}
-//         onChange={(event) =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//             payload: { ...filter, lock: event.target.value },
-//           })
-//         }
-//       >
-//         <option value={0}>All Locks</option>
-//         {locks &&
-//           locks.map((lock) => (
-//             <option key={lock.id} value={lock.id}>
-//               {lock.nickname}
-//             </option>
-//           ))}
-//       </select>
-//       <br></br>
-//       <span>Brand - </span>
-//       <select
-//         value={filter.brand}
-//         onChange={(event) =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//             payload: { ...filter, brand: event.target.value },
-//           })
-//         }
-//       >
-//         <option value={0}>All Brands</option>
-//         {brands &&
-//           brands.map((brand) => (
-//             <option key={brand.id} value={brand.id}>
-//               {brand.brand}
-//             </option>
-//           ))}
-//       </select>
-//       <span>Type - </span>
-//       <select
-//         value={filter.type}
-//         onChange={(event) =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//             payload: { ...filter, type: event.target.value },
-//           })
-//         }
-//       >
-//         <option value={0}>All Types</option>
-//         {types &&
-//           types.map((type) => (
-//             <option key={type.id} value={type.id}>
-//               {type.type}
-//             </option>
-//           ))}
-//       </select>
-//       <button
-//         onClick={() =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//           })
-//         }
-//       >
-//         Reset
-//       </button>
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Lock</th>
-//             <th>Brand</th>
-//             <th>Type</th>
-//             <th>Solved</th>
-//             <th>Time</th>
-//             <th>Date</th>
-//             <th></th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {pickings.map((picking) => (
-//             <tr key={picking.id}>
-//               <td>{picking.nickname}</td>
-//               <td>{picking.brand}</td>
-//               <td>{picking.type}</td>
-//               <td>{picking.success}</td>
-//               <td>{picking.time_taken}</td>
-//               <td>{picking.date}</td>
-//               <td>
-//                 <button
-//                   onClick={() => {
-//                     history.push({ pathname: `/pickDetails/${picking.id}` });
-//                   }}
-//                 >
-//                   Details
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </Container>
-//   );
-// };
-
-export default ViewHistory;
+export default NewTable;
