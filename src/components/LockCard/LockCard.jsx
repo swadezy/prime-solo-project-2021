@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import image from '../../images/Abus_Lock.jpg';
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -74,9 +75,10 @@ function LockCard({ lock }) {
           }}
         >
           <CardMedia
+            component="img"
             className={classes.media}
             title={lock.nickname}
-            image="public/images/Abus_Lock.jpg"
+            image={image}
           />
         </CardActionArea>
 
