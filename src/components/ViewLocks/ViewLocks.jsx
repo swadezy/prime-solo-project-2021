@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LockCard from '../LockCard/LockCard';
 
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography, Paper } from '@material-ui/core';
 
 // this component shows the user all locks currently tied to their account
 function ViewLocks() {
@@ -17,6 +17,7 @@ function ViewLocks() {
 
   return (
     <Container maxWidth="lg">
+      <br></br>
       <Grid container spacing={3} alignItems="stretch">
         <Grid item xs={12}>
           <Typography variant="h5">View Locks</Typography>

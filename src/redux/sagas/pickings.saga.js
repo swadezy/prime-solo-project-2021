@@ -4,13 +4,14 @@ import axios from 'axios';
 // get request for all pickings
 function* fetchAllPickings(action) {
   try {
+    console.log('in fetch all pickings with filter', action.payload)
     yield put({
       type: action.payload ? 'SET_FILTER' : 'CLEAR_FILTER',
       payload: action.payload,
     });
     const state = yield select();
     const pickings = yield axios.get(
-      `/pickings/all/${state.filter.lock}/${state.filter.brand}/${state.filter.type}`
+      `/pickings/all/${state.filter}`
     );
     yield put({ type: 'SET_PICKINGS', payload: pickings.data });
   } catch (error) {

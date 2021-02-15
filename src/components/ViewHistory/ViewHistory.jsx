@@ -19,22 +19,24 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import Box from '@material-ui/core/Box';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 function ViewHistory() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_ALL_PICKINGS' });
+    console.log('in history page load')
+    dispatch({ type: 'FETCH_ALL_PICKINGS', payload: filter });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
-    dispatch({ type: 'FETCH_BRANDS' });
-    dispatch({ type: 'FETCH_TYPES' });
   }, []);
 
   const rows = useSelector((store) => store.pickings);
+  const locks = useSelector((store) => store.locks);
+  const filter = useSelector((store) => store.filter);
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -174,19 +176,41 @@ function ViewHistory() {
           </Typography>
         )}
 
-        {/* {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )} */}
+        <TextField
+          color="secondary"
+          variant="outlined"
+          style={{ minWidth: 300 }}
+          select
+          label="Lock"
+          value={filter}
+          display="flex"
+          onChange={(event) =>
+            dispatch({
+              type: 'FETCH_ALL_PICKINGS',
+              payload: event.target.value,
+            })
+          }
+        >
+          <MenuItem value={0}>All</MenuItem>
+          {locks &&
+            locks.map((lock) => (
+              <MenuItem key={lock.id} value={lock.id}>
+                {lock.nickname}
+              </MenuItem>
+            ))}
+        </TextField>
+        <Tooltip title="Reset filter">
+          <IconButton
+            aria-label="Reset filter"
+            onClick={() =>
+              dispatch({
+                type: 'FETCH_ALL_PICKINGS',
+              })
+            }
+          >
+            <RotateLeftIcon />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     );
   };
@@ -263,195 +287,76 @@ function ViewHistory() {
 
   return (
     <Container maxWidth="lg">
+      <br></br>
       <TableContainer component={Paper} className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size="medium"
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody minRows={0}>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `picking-row-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      tabIndex={-1}
-                      key={row.name}
-                      //   selected={isItemSelected}
-                    >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        align="right"
+        <Box m={3} p={1}>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <TableContainer>
+            <Table
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              size="medium"
+              aria-label="enhanced table"
+            >
+              <EnhancedTableHead
+                classes={classes}
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const labelId = `picking-row-${index}`;
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row.name)}
+                        tabIndex={-1}
+                        key={row.name}
+                        //   selected={isItemSelected}
                       >
-                        {row.success ? 'Yes' : 'No'}
-                      </TableCell>
-                      <TableCell>{row.nickname}</TableCell>
-                      <TableCell>{row.brand}</TableCell>
-                      <TableCell>{row.type}</TableCell>
-                      <TableCell align="right">{row.time_taken}</TableCell>
-                      <TableCell>{row.date}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {/* {emptyRows > 0 && (
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                          align="right"
+                        >
+                          {row.success ? 'Yes' : 'No'}
+                        </TableCell>
+                        <TableCell>{row.nickname}</TableCell>
+                        <TableCell>{row.brand}</TableCell>
+                        <TableCell>{row.type}</TableCell>
+                        <TableCell align="right">{row.time_taken}</TableCell>
+                        <TableCell>{row.date}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {/* {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )} */}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </Box>
       </TableContainer>
     </Container>
   );
 }
-
-// function ViewHistory() {
-//   const dispatch = useDispatch();
-//   const history = useHistory();
-//   const pickings = useSelector((store) => store.pickings);
-//   const locks = useSelector((store) => store.locks);
-//   const brands = useSelector((store) => store.brands);
-//   const types = useSelector((store) => store.types);
-//   const filter = useSelector((store) => store.filter);
-
-//   useEffect(() => {
-//     dispatch({ type: 'FETCH_ALL_PICKINGS' });
-//     dispatch({ type: 'FETCH_ALL_LOCKS' });
-//     dispatch({ type: 'FETCH_BRANDS' });
-//     dispatch({ type: 'FETCH_TYPES' });
-//   }, []);
-
-//   return (
-//     <Container maxWidth="lg">
-//       <NewTable />
-
-//       <span>Lock - </span>
-//       <select
-//         value={filter.lock}
-//         onChange={(event) =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//             payload: { ...filter, lock: event.target.value },
-//           })
-//         }
-//       >
-//         <option value={0}>All Locks</option>
-//         {locks &&
-//           locks.map((lock) => (
-//             <option key={lock.id} value={lock.id}>
-//               {lock.nickname}
-//             </option>
-//           ))}
-//       </select>
-//       <br></br>
-//       <span>Brand - </span>
-//       <select
-//         value={filter.brand}
-//         onChange={(event) =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//             payload: { ...filter, brand: event.target.value },
-//           })
-//         }
-//       >
-//         <option value={0}>All Brands</option>
-//         {brands &&
-//           brands.map((brand) => (
-//             <option key={brand.id} value={brand.id}>
-//               {brand.brand}
-//             </option>
-//           ))}
-//       </select>
-//       <span>Type - </span>
-//       <select
-//         value={filter.type}
-//         onChange={(event) =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//             payload: { ...filter, type: event.target.value },
-//           })
-//         }
-//       >
-//         <option value={0}>All Types</option>
-//         {types &&
-//           types.map((type) => (
-//             <option key={type.id} value={type.id}>
-//               {type.type}
-//             </option>
-//           ))}
-//       </select>
-//       <button
-//         onClick={() =>
-//           dispatch({
-//             type: 'FETCH_ALL_PICKINGS',
-//           })
-//         }
-//       >
-//         Reset
-//       </button>
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Lock</th>
-//             <th>Brand</th>
-//             <th>Type</th>
-//             <th>Solved</th>
-//             <th>Time</th>
-//             <th>Date</th>
-//             <th></th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {pickings.map((picking) => (
-//             <tr key={picking.id}>
-//               <td>{picking.nickname}</td>
-//               <td>{picking.brand}</td>
-//               <td>{picking.type}</td>
-//               <td>{picking.success}</td>
-//               <td>{picking.time_taken}</td>
-//               <td>{picking.date}</td>
-//               <td>
-//                 <button
-//                   onClick={() => {
-//                     history.push({ pathname: `/pickDetails/${picking.id}` });
-//                   }}
-//                 >
-//                   Details
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </Container>
-//   );
-// };
 
 export default ViewHistory;

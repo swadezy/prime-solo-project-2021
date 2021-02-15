@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import image from '../../images/Abus_Lock.jpg';
@@ -52,11 +53,20 @@ const useStyles = makeStyles((theme) => ({
 function LockCard({ lock }) {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleRouteHistory = () => {
+    dispatch({
+      type: 'SET_FILTER',
+      payload: lock.id,
+    });
+    history.push('/viewHistory');
   };
 
   return (
@@ -85,7 +95,9 @@ function LockCard({ lock }) {
         <CardActions className={classes.actions}>
           {/* find if lock is picked or not and show icon */}
 
-          <Button color="primary">History</Button>
+          <Button color="primary" onClick={handleRouteHistory}>
+            History
+          </Button>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,

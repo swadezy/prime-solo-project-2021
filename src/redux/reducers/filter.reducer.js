@@ -1,10 +1,10 @@
 // this reducer stores the filter information for the lock history view
-const filterReducer = (state = { lock: 0, brand: 0, type: 0 }, action) => {
+const filterReducer = (state = 0, action) => {
   switch (action.type) {
     case 'SET_FILTER':
       return action.payload;
     case 'CLEAR_FILTER':
-      return { lock: 0, brand: 0, type: 0 };
+      return 0;
     default:
       return state;
   }

@@ -6,7 +6,7 @@ const {
 const router = express.Router();
 
 // gets filtered list of pickings with lock info, brand, and type from db - defaults to unfiltered
-router.get('/all/:lock/:brand/:type', rejectUnauthenticated, (req, res) => {
+router.get('/all/:lock', rejectUnauthenticated, (req, res) => {
   console.log('received filter params', req.params);
   const queryText = `SELECT "pickings".*, "locks".nickname, "locks".num_pins, "brands".brand, "types".type FROM "pickings"
   JOIN "locks" ON "pickings".lock_id = "locks".id
@@ -14,15 +14,11 @@ router.get('/all/:lock/:brand/:type', rejectUnauthenticated, (req, res) => {
   JOIN "types" ON "locks".type_id = "types".id
   WHERE "pickings".user_id = $1
   AND ("lock_id" = $2 OR $2 = 0)
-  AND ("brands".id = $3 OR $3 = 0)
-  AND ("types".id = $4 OR $4 = 0)
-  ORDER BY "pickings".date ASC;`;
+  ORDER BY "pickings".date ASC`;
   pool
     .query(queryText, [
       req.user.id,
       req.params.lock,
-      req.params.brand,
-      req.params.type,
     ])
     .then((result) => {
       console.log('received all pickings', result.rows);
