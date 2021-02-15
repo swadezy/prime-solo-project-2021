@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -298,6 +299,14 @@ function ViewHistory() {
               size="medium"
               aria-label="enhanced table"
             >
+              <colgroup>
+                <col style={{ width: '10%' }} />
+                <col style={{ width: '25%' }} />
+                <col style={{ width: '15%' }} />
+                <col style={{ width: '15%' }} />
+                <col style={{ width: '15%' }} />
+                <col style={{ width: '20%' }} />
+              </colgroup>
               <EnhancedTableHead
                 classes={classes}
                 numSelected={selected.length}
@@ -331,7 +340,14 @@ function ViewHistory() {
                         <TableCell>{row.brand}</TableCell>
                         <TableCell>{row.type}</TableCell>
                         <TableCell align="right">{row.time_taken}</TableCell>
-                        <TableCell>{row.date}</TableCell>
+                        <TableCell
+                          component={Link}
+                          to={{
+                            pathname: `/pickDetails/${row.id}`,
+                          }}
+                        >
+                          {row.date}
+                        </TableCell>
                       </TableRow>
                     );
                   })}

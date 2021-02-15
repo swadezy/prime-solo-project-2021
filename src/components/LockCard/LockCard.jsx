@@ -104,6 +104,7 @@ function LockCard({ lock }) {
             startIcon={<EditIcon />}
             color="secondary"
             onClick={() => {
+              // put clear lock here to clean up rendering?
               history.push({ pathname: `/lockEdit/${lock.id}` });
             }}
           >

@@ -11,7 +11,11 @@ import {
   Paper,
   TextField,
   Typography,
+  Tooltip,
+  IconButton,
 } from '@material-ui/core';
+
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 // this component allows the user to edit lock information for each lock in their account
 function LockEdit() {
@@ -45,8 +49,23 @@ function LockEdit() {
         <Box m={3} p={3}>
           <form onSubmit={handleEdit}>
             <Grid container spacing={3} alignItems="center">
-              <Grid item xs={12}>
+              <Grid item xs={10}>
                 <Typography variant="h5">Edit Lock</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  startIcon={<DeleteForeverIcon />}
+                  aria-label="Delete lock"
+                  // onClick={() =>
+                  //   dispatch({
+                  //     type: 'FETCH_ALL_PICKINGS',
+                  //   })
+                  // }
+                >
+                  Delete
+                </Button>
               </Grid>
               <Grid item xs={12} sm={2}>
                 <Typography variant="h6">Nickname</Typography>
