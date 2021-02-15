@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import clsx from 'clsx';
@@ -72,7 +73,11 @@ function LockCard({ lock }) {
             history.push({ pathname: `/lockDetails/${lock.id}` });
           }}
         >
-          <CardMedia className={classes.media} title={lock.nickname} />
+          <CardMedia
+            className={classes.media}
+            title={lock.nickname}
+            image="public/images/Abus_Lock.jpg"
+          />
         </CardActionArea>
 
         <CardActions className={classes.actions}>
