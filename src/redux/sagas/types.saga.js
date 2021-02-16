@@ -11,6 +11,18 @@ function* fetchTypes() {
   }
 }
 
+// put request to update types
+function* updateTypes(action) {
+  try {
+    console.log('in update types with types', action.payload);
+    yield axios.put(`/types`, action.payload);
+    yield put({ type: 'FETCH_TYPES' });
+  } catch (error) {
+    console.error('types update error', error);
+  }
+}
+
+// delete request to delete a type
 function* deleteType(action) {
   try {
     console.log('in delete type for id', action.payload);
@@ -23,6 +35,7 @@ function* deleteType(action) {
 
 function* typesSaga() {
   yield takeEvery('FETCH_TYPES', fetchTypes);
+  yield takeEvery('UPDATE_TYPES', updateTypes);
   yield takeEvery('DELETE_TYPE', deleteType);
 }
 

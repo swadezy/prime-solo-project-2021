@@ -22,6 +22,27 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {});
 
+// updates brands in db
+router.put('/', rejectUnauthenticated, (req, res) => {
+  console.log('in brands put, received', req.body);
+  req.user.admin &&
+    req.body.map((brand) => {
+      const queryText = `UPDATE "brands"
+  SET "brand" = $1
+  WHERE "id" = $2;`;
+      pool
+        .query(queryText, [brand.brand, brand.id])
+        .then((result) => {
+          console.log('updated brands');
+          res.sendStatus(200);
+        })
+        .catch((error) => {
+          console.log('error in update brands', error);
+          res.sendStatus(500);
+        });
+    });
+});
+
 // deletes brand from db
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
   console.log('in delete for brand id', req.params.id);

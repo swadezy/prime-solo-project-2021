@@ -22,6 +22,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import PersonIcon from '@material-ui/icons/Person';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
+import AddIcon from '@material-ui/icons/Add';
 
 function Admin() {
   const dispatch = useDispatch();
@@ -40,6 +41,17 @@ function Admin() {
 
   const handleUserEdit = () => {
     setEditUsers(!editUsers);
+  };
+
+  const handleBrandEdit = (event) => {
+    event.preventDefault();
+    editBrands ? dispatch({ type: 'UPDATE_BRANDS', payload: brands}) : null;
+    setEditBrands(!editBrands);
+  };
+
+  const handleTypeEdit = () => {
+    editTypes ? dispatch({ type: 'UPDATE_TYPES', payload: types}) : null;
+    setEditTypes(!editTypes);
   };
 
   return (
@@ -105,7 +117,7 @@ function Admin() {
                 <Tooltip title={editBrands ? 'Save brands' : 'Edit brands'}>
                   <IconButton
                     aria-label="Edit brands"
-                    onClick={() => setEditBrands(!editBrands)}
+                    onClick={handleBrandEdit}
                   >
                     {editBrands ? <SaveIcon /> : <EditIcon />}
                   </IconButton>
@@ -114,8 +126,29 @@ function Admin() {
               <List dense={true}>
                 {brands &&
                   brands.map((brand) => (
-                    <ListItem key={brand.id} style={{ padding: '0' }}>
-                      <ListItemText primary={brand.brand} />
+                    <ListItem
+                      key={brand.id}
+                      display="flex"
+                      style={{ padding: '0' }}
+                    >
+                      {editBrands && brand.id !== 13 ? (
+                        <TextField
+                          style={{ flex: 1 }}
+                          variant="outlined"
+                          color="secondary"
+                          size="small"
+                          fullWidth
+                          value={brand.brand}
+                          onChange={(event) =>
+                            dispatch({
+                              type: 'SET_BRAND',
+                              payload: {id: brand.id, brand: event.target.value},
+                            })
+                          }
+                        />
+                      ) : (
+                        <ListItemText primary={brand.brand} />
+                      )}
                       <ListItemIcon>
                         <IconButton
                           edge="end"
@@ -146,10 +179,7 @@ function Admin() {
                   Types
                 </Typography>
                 <Tooltip title={editTypes ? 'Save types' : 'Edit types'}>
-                  <IconButton
-                    aria-label="Edit types"
-                    onClick={() => setEditTypes(!editTypes)}
-                  >
+                  <IconButton aria-label="Edit types" onClick={handleTypeEdit}>
                     {editTypes ? <SaveIcon /> : <EditIcon />}
                   </IconButton>
                 </Tooltip>
@@ -157,8 +187,29 @@ function Admin() {
               <List dense={true}>
                 {types &&
                   types.map((type) => (
-                    <ListItem key={type.id} style={{ padding: '0' }}>
-                      <ListItemText primary={type.type} />
+                    <ListItem
+                      key={type.id}
+                      display="flex"
+                      style={{ padding: '0' }}
+                    >
+                      {editTypes && type.id !== 7 ? (
+                        <TextField
+                          style={{ flex: 1 }}
+                          variant="outlined"
+                          color="secondary"
+                          size="small"
+                          fullWidth
+                          value={type.type}
+                          onChange={(event) =>
+                            dispatch({
+                              type: 'SET_TYPE',
+                              payload: {id: type.id, type: event.target.value},
+                            })
+                          }
+                        />
+                      ) : (
+                        <ListItemText primary={type.type} />
+                      )}
                       <ListItemIcon>
                         <IconButton
                           edge="end"
