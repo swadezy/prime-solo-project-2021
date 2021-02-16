@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav() {
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
 
   let loginLinkData = {
     path: '/login',
@@ -67,7 +68,12 @@ function Nav() {
               <Button component={Link} to="/addPicking" color="inherit">
                 Add Picking
               </Button>
-              <Button component={Link} to="/viewHistory" color="inherit">
+              <Button
+                component={Link}
+                to="/viewHistory"
+                onClick={() => dispatch({ type: 'CLEAR_FILTER' })}
+                color="inherit"
+              >
                 View History
               </Button>
             </div>

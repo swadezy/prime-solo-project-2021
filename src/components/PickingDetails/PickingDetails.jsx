@@ -2,6 +2,15 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+} from '@material-ui/core';
+
 // this view displays more robust information on a lock than is available on the view locks page
 function PickingDetails() {
   const page = useParams();
@@ -15,44 +24,78 @@ function PickingDetails() {
     dispatch({ type: 'FETCH_PICKING_DETAILS', payload: page.id });
   }, []);
 
-  const handleDelete = () => {
-    // swal?
-    dispatch({ type: 'DELETE_PICKING', payload: page.id });
-    history.push('/viewHistory');
-  };
-
   const routeBack = () => {
     dispatch({ type: 'CLEAR_PICKING' });
     history.push('/viewHistory');
   };
 
   return (
-    <div>
-      <p>Picking Event Details</p>
-      {picking && (
-        <div>
-          <p>Picking event #{picking.id}</p>
-          <p>Lock : {picking.nickname}</p>
-          <p>Time Taken : {picking.time_taken}</p>
-          <p>Date : {picking.date}</p>
-          <p>Notes : {picking.notes}</p>
-          {/* success */}
-          <p>Brand : {picking.brand}</p>
-          <p>Type : {picking.type}</p>
-          <p>Number of Pins : {picking.num_pins}</p>
-          <p>Lock Notes : {picking.lock_notes}</p>
-          <button
-            onClick={() => {
-              history.push({ pathname: `/pickEdit/${picking.id}` });
-            }}
-          >
-            Edit
-          </button>
-          <button onClick={handleDelete}>Delete</button>
-          <button onClick={routeBack}>Back</button>
-        </div>
-      )}
-    </div>
+    <Container maxWidth="md">
+      <Paper>
+        <Box m={3} p={3}>
+          {picking && (
+            <Grid container spacing={3} alignItems="center">
+              <Grid item xs={12}>
+                <Typography variant="h5">
+                  Picking Event #{picking.id}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Lock : {picking.nickname}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Time Taken : {picking.time_taken}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Date : {picking.date}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Notes : {picking.notes}</Typography>
+              </Grid>
+              {/* success */}
+              <Grid item xs={12}>
+                <Typography>Brand : {picking.brand}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Type : {picking.type}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Number of Pins : {picking.num_pins}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>Lock Notes : {picking.lock_notes}</Typography>
+              </Grid>
+
+              <Grid container item xs={12} sm={6}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={() => {
+                    history.push({ pathname: `/pickEdit/${picking.id}` });
+                  }}
+                  fullWidth
+                >
+                  Edit
+                </Button>
+              </Grid>
+              <Grid container item xs={12} sm={6}>
+                <Button
+                  variant="contained"
+                  color="default"
+                  size="large"
+                  fullWidth
+                  onClick={routeBack}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          )}
+        </Box>
+      </Paper>
+    </Container>
   );
 }
 

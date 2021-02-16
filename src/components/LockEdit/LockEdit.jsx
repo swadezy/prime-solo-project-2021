@@ -11,7 +11,6 @@ import {
   Paper,
   TextField,
   Typography,
-  IconButton,
 } from '@material-ui/core';
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -43,7 +42,7 @@ function LockEdit() {
   };
 
   const handleDelete = () => {
-    dispatch({ type: 'DELETE_LOCK', payload: lock?.id });
+    dispatch({ type: 'DELETE_LOCK', payload: lock.id });
     dispatch({ type: 'CLEAR_LOCKS' });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
     history.push({ pathname: '/viewLocks' });
