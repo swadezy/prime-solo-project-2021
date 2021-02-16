@@ -62,4 +62,23 @@ router.get('/all', (req, res) => {
     });
 });
 
+// deletes user from db
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  console.log('in delete for user id', req.params.id);
+  console.log(req.user.admin);
+  const queryText = req.user.admin
+    ? `DELETE FROM "users" WHERE "users".id = $1;`
+    : null;
+  pool
+    .query(queryText, [req.params.id])
+    .then((result) => {
+      console.log('deleted user');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('error in delete user', error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

@@ -76,7 +76,16 @@ function Admin() {
                         secondary={user.admin ? 'Admin' : 'User'}
                       />
                       <ListItemIcon>
-                        <IconButton edge="end" aria-label="delete">
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() =>
+                            dispatch({
+                              type: 'DELETE_USER',
+                              payload: user.id,
+                            })
+                          }
+                        >
                           {editUsers ? <DeleteIcon /> : null}
                         </IconButton>
                       </ListItemIcon>

@@ -12,7 +12,8 @@ CREATE TABLE "users" (
 
 CREATE TABLE "brands" (
 	"id" SERIAL PRIMARY KEY,
-	"brand" VARCHAR(30) NOT NULL
+	"brand" VARCHAR(30) NOT NULL,
+	"img_url" VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE "types" (
@@ -22,24 +23,26 @@ CREATE TABLE "types" (
 
 CREATE TABLE "locks" (
 	"id" SERIAL PRIMARY KEY,
-	"user_id" INT REFERENCES "users" NOT NULL,
+	"user_id" INT REFERENCES "users" ON DELETE CASCADE NOT NULL,
 	"nickname" VARCHAR(50) NOT NULL,
-	"brand_id" INT REFERENCES "brands",
-	"type_id" INT REFERENCES "types",
+	"brand_id" INT DEFAULT 13 REFERENCES "brands" ON DELETE SET DEFAULT,
+	"type_id" INT DEFAULT 7 REFERENCES "types" ON DELETE SET DEFAULT,
 	"num_pins" INT,
-	"img_url" VARCHAR(255),
+	"img_url" VARCHAR(255) NOT NULL DEFAULT 'no image',
 	"notes" VARCHAR(255)
 );
 
 CREATE TABLE "pickings" (
 	"id" SERIAL PRIMARY KEY,
-	"user_id" INT REFERENCES "users" NOT NULL,
+	"user_id" INT REFERENCES "users" ON DELETE CASCADE NOT NULL,
 	"lock_id" INT REFERENCES "locks" ON DELETE CASCADE NOT NULL,
 	"success" BOOLEAN NOT NULL,
 	"time_taken" INT,
 	"date" DATE,
 	"notes" VARCHAR(255)
 );
+
+
 
 --dummy data
 
@@ -48,11 +51,11 @@ CREATE TABLE "pickings" (
 --joe / schmo
 --jane / schmane
 
-INSERT INTO "brands" ("brand")
-VALUES ('Abus'), ('American'), ('Brinks'), ('Commando'), ('Kwikset'), ('Master'), ('Sargent'), ('Schlage'), ('Tru-Bolt'), ('Weiser'), ('Yale'), ('Other');
+INSERT INTO "brands" ("brand", "img_url")
+VALUES ('Abus', '../../images/Abus_Lock.jpg'), ('American', '../../images/American_Lock.jpg'), ('Brinks', '../../images/Brinks_Lock.jpg'), ('Commando', '../../images/Commando_Lock.jpg'), ('Kwikset', '../../images/Kwikset_Lock.jpg'), ('Master', '../../images/Master_Lock.jpg'), ('Sargent', '../../images/Sarget_Lock.jpg'), ('Schlage', '../../images/Schlage_Lock.jpg'), ('Tru-Bolt', '../../images/Tru-Bolt_Lock.jpg'), ('Weiser', '../../images/Weiser_Lock.jpg'), ('Yale', '../../images/Yale_Lock.jpg'), ('Other', '../../images/Other_Lock.jpg'), ('Unknown', '../../images/Other_Lock.jpg');
 
 INSERT INTO "types" ("type")
-VALUES ('Disc Detainer'), ('Lever'), ('Pin Cylinder'), ('Wafer'), ('Warded'), ('Other');
+VALUES ('Disc Detainer'), ('Lever'), ('Pin Cylinder'), ('Wafer'), ('Warded'), ('Other'), ('Unknown');
 
 --dummy locks for user 1, admin
 INSERT INTO "locks" ("user_id", "nickname", "brand_id", "type_id", "num_pins", "img_url", "notes")
@@ -63,6 +66,10 @@ VALUES
 (1, 'Shiny Reddit Find', 2, 5, 5, 'http', 'Found on reddit, tricky security pins'),
 (1, 'Practice Lock', 6, 3, 3, 'http', 'Good for showing people the beginnings of picking'),
 (1, 'The Challenger', 8, 1, 6, 'http', 'The toughest lock I own - put this thing in the Pentagon');
+
+INSERT INTO "locks" ("user_id", "nickname", "brand_id", "type_id", "num_pins", "notes")
+VALUES
+(1, 'Test for no img', 6, 3, 4, 'Test for no img notes');
 
 --dummy locks for user 2, general user
 INSERT INTO "locks" ("user_id", "nickname", "brand_id", "type_id", "num_pins", "img_url", "notes")
@@ -133,3 +140,5 @@ VALUES
 DROP TABLE "users";
 DROP TABLE "locks", "pickings";
 DROP TABLE "brands", "types";
+
+--scratch data
