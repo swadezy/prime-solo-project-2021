@@ -43,6 +43,7 @@ function AddPicking() {
   // how to do input validation for this one?
   const handleAddPicking = (event) => {
     event.preventDefault();
+    console.log('date is', newPicking.date)
     dispatch({ type: 'POST_PICKING', payload: newPicking });
     history.push('/viewHistory');
   };
@@ -179,7 +180,7 @@ function AddPicking() {
                   size="large"
                   fullWidth
                   onClick={() => {
-                    history.push('/');
+                    history.push('/viewHistory');
                   }}
                 >
                   Cancel

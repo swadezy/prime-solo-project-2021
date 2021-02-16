@@ -26,6 +26,7 @@ import Box from '@material-ui/core/Box';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import { format } from 'date-fns'
 
 function ViewHistory() {
   const dispatch = useDispatch();
@@ -302,6 +303,7 @@ function ViewHistory() {
                             pathname: `/pickDetails/${row.id}`,
                           }}
                         >
+                          {/* {format(row.date, 'PPPP')} */}
                           {row.date}
                         </TableCell>
                       </TableRow>
