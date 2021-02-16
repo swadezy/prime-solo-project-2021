@@ -189,7 +189,7 @@ function AddLock() {
                   size="large"
                   fullWidth
                   onClick={() => {
-                    history.push('/');
+                    history.push('/viewLocks');
                   }}
                 >
                   Cancel
