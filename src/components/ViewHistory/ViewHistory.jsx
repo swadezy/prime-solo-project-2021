@@ -119,7 +119,6 @@ function ViewHistory() {
 
   EnhancedTableHead.propTypes = {
     classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
@@ -146,27 +145,13 @@ function ViewHistory() {
     },
   }));
 
-  const EnhancedTableToolbar = (props) => {
+  const EnhancedTableToolbar = () => {
     const classes = useToolbarStyles();
-    const { numSelected } = props;
 
     return (
       <Toolbar
-        className={clsx(classes.root, {
-          [classes.highlight]: numSelected > 0,
-        })}
+        className={clsx(classes.root)}
       >
-        {/* this is where i can put filtered stuff */}
-        {numSelected > 0 ? (
-          <Typography
-            className={classes.title}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        ) : (
           <Typography
             className={classes.title}
             variant="h5"
@@ -175,8 +160,6 @@ function ViewHistory() {
           >
             Picking History
           </Typography>
-        )}
-
         <TextField
           color="secondary"
           variant="outlined"
@@ -216,10 +199,6 @@ function ViewHistory() {
     );
   };
 
-  EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-  };
-
   const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
@@ -247,7 +226,6 @@ function ViewHistory() {
   const classes = useStyles();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('date');
-  const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -255,26 +233,6 @@ function ViewHistory() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -291,7 +249,7 @@ function ViewHistory() {
       <br></br>
       <TableContainer component={Paper} className={classes.paper}>
         <Box m={3} p={1}>
-          <EnhancedTableToolbar numSelected={selected.length} />
+          <EnhancedTableToolbar />
           <TableContainer>
             <Table
               className={classes.table}
@@ -309,7 +267,6 @@ function ViewHistory() {
               </colgroup>
               <EnhancedTableHead
                 classes={classes}
-                numSelected={selected.length}
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
@@ -323,7 +280,6 @@ function ViewHistory() {
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.name)}
                         tabIndex={-1}
                         key={row.name}
                       >
