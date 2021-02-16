@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -21,18 +21,26 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonIcon from '@material-ui/icons/Person';
 import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
 
 function Admin() {
   const dispatch = useDispatch();
   const users = useSelector((store) => store.users);
   const brands = useSelector((store) => store.brands);
   const types = useSelector((store) => store.types);
+  const [editUsers, setEditUsers] = useState(false);
+  const [editBrands, setEditBrands] = useState(false);
+  const [editTypes, setEditTypes] = useState(false);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USERS' });
     dispatch({ type: 'FETCH_BRANDS' });
     dispatch({ type: 'FETCH_TYPES' });
   }, []);
+
+  const handleUserEdit = () => {
+    setEditUsers(!editUsers);
+  };
 
   return (
     <Container maxWidth="lg">
@@ -44,21 +52,20 @@ function Admin() {
         <Grid item xs={12} sm={4}>
           <Paper>
             <Box m={2} p={2}>
-              <Typography variant="h6" display="inline">
-                Users
-              </Typography>
-              <Tooltip title="Edit users">
-                <IconButton
-                  aria-label="Edit users"
-                  // onClick={}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
+              <Box display="flex" alignItems="center">
+                <Typography variant="h6" style={{ flex: 1 }}>
+                  Users
+                </Typography>
+                <Tooltip title={editUsers ? 'Save users' : 'Edit users'}>
+                  <IconButton aria-label="Edit users" onClick={handleUserEdit}>
+                    {editUsers ? <SaveIcon /> : <EditIcon />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
               <List dense={true}>
                 {users &&
                   users.map((user) => (
-                    <ListItem style={{ padding: '0' }}>
+                    <ListItem key={user.id} style={{ padding: '0' }}>
                       <ListItemAvatar>
                         <Avatar>
                           <PersonIcon />
@@ -66,11 +73,11 @@ function Admin() {
                       </ListItemAvatar>
                       <ListItemText
                         primary={user.username}
-                        secondary={user.admin ? 'Admin' : null}
+                        secondary={user.admin ? 'Admin' : 'User'}
                       />
                       <ListItemIcon>
                         <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
+                          {editUsers ? <DeleteIcon /> : null}
                         </IconButton>
                       </ListItemIcon>
                     </ListItem>
@@ -82,20 +89,38 @@ function Admin() {
         <Grid item xs={12} sm={4}>
           <Paper>
             <Box m={2} p={2}>
-              <Typography variant="h6">Brands</Typography>
+              <Box display="flex" alignItems="center">
+                <Typography variant="h6" style={{ flex: 1 }}>
+                  Brands
+                </Typography>
+                <Tooltip title={editBrands ? 'Save brands' : 'Edit brands'}>
+                  <IconButton
+                    aria-label="Edit brands"
+                    onClick={() => setEditBrands(!editBrands)}
+                  >
+                    {editBrands ? <SaveIcon /> : <EditIcon />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
               <List dense={true}>
                 {brands &&
                   brands.map((brand) => (
-                    <ListItem style={{ padding: '0' }}>
-                      {/* <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar> */}
+                    <ListItem key={brand.id} style={{ padding: '0' }}>
                       <ListItemText primary={brand.brand} />
                       <ListItemIcon>
-                        <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() =>
+                            dispatch({
+                              type: 'DELETE_BRAND',
+                              payload: brand.id,
+                            })
+                          }
+                        >
+                          {editBrands && brand.id !== 13 ? (
+                            <DeleteIcon />
+                          ) : null}
                         </IconButton>
                       </ListItemIcon>
                     </ListItem>
@@ -107,20 +132,36 @@ function Admin() {
         <Grid item xs={12} sm={4}>
           <Paper>
             <Box m={2} p={2}>
-              <Typography variant="h6">Types</Typography>
+              <Box display="flex" alignItems="center">
+                <Typography variant="h6" style={{ flex: 1 }}>
+                  Types
+                </Typography>
+                <Tooltip title={editTypes ? 'Save types' : 'Edit types'}>
+                  <IconButton
+                    aria-label="Edit types"
+                    onClick={() => setEditTypes(!editTypes)}
+                  >
+                    {editTypes ? <SaveIcon /> : <EditIcon />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
               <List dense={true}>
                 {types &&
                   types.map((type) => (
-                    <ListItem style={{ padding: '0' }}>
-                      {/* <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar> */}
+                    <ListItem key={type.id} style={{ padding: '0' }}>
                       <ListItemText primary={type.type} />
                       <ListItemIcon>
-                        <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() =>
+                            dispatch({
+                              type: 'DELETE_TYPE',
+                              payload: type.id,
+                            })
+                          }
+                        >
+                          {editTypes && type.id !== 7 ? <DeleteIcon /> : null}
                         </IconButton>
                       </ListItemIcon>
                     </ListItem>

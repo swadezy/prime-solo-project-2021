@@ -1,5 +1,8 @@
 const express = require('express');
 const pool = require('../modules/pool');
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 const router = express.Router();
 
 // gets full list of brands from db
@@ -17,8 +20,24 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res) => {});
 
+// deletes brand from db
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  console.log('in delete for brand id', req.params.id);
+  const queryText = req.user.admin
+    ? `DELETE FROM "brands" WHERE "brands".id = $1;`
+    : null;
+  pool
+    .query(queryText, [req.params.id])
+    .then((result) => {
+      console.log('deleted brand');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('error in delete brand', error);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;

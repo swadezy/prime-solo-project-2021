@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
-// this view displays more robust information on a lock than is available on the view locks page
+// this view displays more robust information for a picking than is available on the view history page
 function PickingDetails() {
   const page = useParams();
   const dispatch = useDispatch();

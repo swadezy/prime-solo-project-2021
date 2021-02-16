@@ -11,8 +11,19 @@ function* fetchTypes() {
   }
 }
 
+function* deleteType(action) {
+  try {
+    console.log('in delete type for id', action.payload);
+    yield axios.delete(`/types/${action.payload}`);
+    yield put({ type: 'FETCH_TYPES' });
+  } catch (error) {
+    console.error('delete type error', error);
+  }
+}
+
 function* typesSaga() {
   yield takeEvery('FETCH_TYPES', fetchTypes);
+  yield takeEvery('DELETE_TYPE', deleteType);
 }
 
 export default typesSaga;

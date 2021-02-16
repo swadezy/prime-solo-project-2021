@@ -11,8 +11,19 @@ function* fetchBrands() {
   }
 }
 
+function* deleteBrand(action) {
+  try {
+    console.log('in delete brand for id', action.payload);
+    yield axios.delete(`/brands/${action.payload}`);
+    yield put({ type: 'FETCH_BRANDS' });
+  } catch (error) {
+    console.error('delete brand error', error);
+  }
+}
+
 function* brandsSaga() {
   yield takeEvery('FETCH_BRANDS', fetchBrands);
+  yield takeEvery('DELETE_BRAND', deleteBrand);
 }
 
 export default brandsSaga;
