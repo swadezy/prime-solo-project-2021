@@ -13,6 +13,7 @@ function ViewLocks() {
     // where do I put these clear reducers? in client or in sagas?
     dispatch({ type: 'CLEAR_LOCKS' });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
+    
   }, []);
 
   return (

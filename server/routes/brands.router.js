@@ -26,7 +26,7 @@ router.post('/', (req, res) => {});
 router.put('/', rejectUnauthenticated, (req, res) => {
   console.log('in brands put, received', req.body);
   req.user.admin &&
-    req.body.map((brand) => {
+    req?.body?.map((brand) => {
       const queryText = `UPDATE "brands"
   SET "brand" = $1
   WHERE "id" = $2;`;
@@ -34,13 +34,15 @@ router.put('/', rejectUnauthenticated, (req, res) => {
         .query(queryText, [brand.brand, brand.id])
         .then((result) => {
           console.log('updated brands');
-          res.sendStatus(200);
+          // res.sendStatus(200);
         })
         .catch((error) => {
           console.log('error in update brands', error);
           res.sendStatus(500);
         });
-    });
+    }).then(() => {
+      res.sendStatus(200);
+    })
 });
 
 // deletes brand from db

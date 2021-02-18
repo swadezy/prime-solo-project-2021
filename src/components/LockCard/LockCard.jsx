@@ -83,13 +83,21 @@ function LockCard({ lock }) {
             lock.brand + ' | ' + lock.type + ' | ' + lock.num_pins + ' pins'
           }
         />
-        <CardActionArea onClick={handleExpandClick}>
+        <CardActionArea
+          style={{ position: 'relative' }}
+          onClick={handleExpandClick}
+        >
           <CardMedia
             component="img"
             className={classes.media}
             title={lock.nickname}
             image={image}
           />
+          {
+            <LockIcon
+              style={{ position: 'absolute', top: '15px', right: '15px' }}
+            />
+          }
         </CardActionArea>
         <CardActions className={classes.actions}>
           {/* find if lock is picked or not and show icon */}

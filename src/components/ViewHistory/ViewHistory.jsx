@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Chart from 'react-apexcharts';
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -19,6 +20,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -26,15 +28,17 @@ import Box from '@material-ui/core/Box';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-import { format } from 'date-fns'
+import { format } from 'date-fns/fp';
 
 function ViewHistory() {
   const dispatch = useDispatch();
+  const [tableView, setTableView] = useState(false);
 
   useEffect(() => {
     console.log('in history page load');
     dispatch({ type: 'FETCH_ALL_PICKINGS', payload: filter });
     dispatch({ type: 'FETCH_ALL_LOCKS' });
+    handleSwitch();
   }, []);
 
   const rows = useSelector((store) => store.pickings);
@@ -86,7 +90,6 @@ function ViewHistory() {
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
-
     return (
       <TableHead>
         <TableRow>
@@ -130,6 +133,7 @@ function ViewHistory() {
     root: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
+      display: 'flex',
     },
     highlight:
       theme.palette.type === 'light'
@@ -150,17 +154,23 @@ function ViewHistory() {
     const classes = useToolbarStyles();
 
     return (
-      <Toolbar
-        className={clsx(classes.root)}
-      >
-          <Typography
-            className={classes.title}
-            variant="h5"
-            id="tableTitle"
-            component="div"
-          >
-            Picking History
-          </Typography>
+      <Toolbar className={clsx(classes.root)}>
+        <Typography
+          className={classes.title}
+          variant="h5"
+          id="tableTitle"
+          component="div"
+        >
+          Picking History
+        </Typography>
+
+        <Button disabled={tableView} onClick={handleSwitch}>
+          Table
+        </Button>
+        <Button disabled={!tableView} onClick={handleSwitch}>
+          Chart
+        </Button>
+
         <TextField
           color="secondary"
           variant="outlined"
@@ -168,7 +178,6 @@ function ViewHistory() {
           select
           label="Lock"
           value={filter}
-          display="flex"
           onChange={(event) =>
             dispatch({
               type: 'FETCH_ALL_PICKINGS',
@@ -229,6 +238,50 @@ function ViewHistory() {
   const [orderBy, setOrderBy] = useState('date');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [opt, setOpt] = useState({
+    options: {
+      chart: {
+        id: 'picking-bar',
+      },
+      xaxis: {
+        categories: [],
+      },
+    },
+    series: [
+      {
+        name: 'seconds taken',
+        data: [],
+      },
+    ],
+  });
+
+  const handleSwitch = () => {
+    setTableView(!tableView);
+    const bars = rows.slice(0, 10);
+    console.log('sliced this many rows', bars);
+    const chartDate = bars.map((bar) => {
+      return bar.date;
+    });
+    const chartTime = bars.map((bar) => {
+      return bar.time_taken;
+    });
+    setOpt({
+      options: {
+        chart: {
+          id: 'picking-bar',
+        },
+        xaxis: {
+          categories: chartDate,
+        },
+      },
+      series: [
+        {
+          name: 'seconds taken',
+          data: chartTime,
+        },
+      ],
+    });
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -247,85 +300,98 @@ function ViewHistory() {
 
   return (
     <Container maxWidth="lg">
+      {/* {JSON.stringify(new Date(rows[3]?.date))}
+      {JSON.stringify(format(new Date(rows[3]?.date), 'MM/dd/yyyy'))}
+      {JSON.stringify(format(parseISO(new Date(rows[3]?.date)), 'MM/dd/yyyy'))} */}
+
       <br></br>
       <TableContainer component={Paper} className={classes.paper}>
         <Box m={3} p={1}>
           <EnhancedTableToolbar />
-          <TableContainer>
-            <Table
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              size="medium"
-              aria-label="enhanced table"
-            >
-              <colgroup>
-                <col style={{ width: '10%' }} />
-                <col style={{ width: '25%' }} />
-                <col style={{ width: '15%' }} />
-                <col style={{ width: '15%' }} />
-                <col style={{ width: '15%' }} />
-                <col style={{ width: '20%' }} />
-              </colgroup>
-              <EnhancedTableHead
-                classes={classes}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
+          {tableView ? (
+            <div>
+              <TableContainer>
+                <Table
+                  className={classes.table}
+                  aria-labelledby="tableTitle"
+                  size="medium"
+                  aria-label="enhanced table"
+                >
+                  <colgroup>
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '25%' }} />
+                    <col style={{ width: '15%' }} />
+                    <col style={{ width: '15%' }} />
+                    <col style={{ width: '15%' }} />
+                    <col style={{ width: '20%' }} />
+                  </colgroup>
+                  <EnhancedTableHead
+                    classes={classes}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={rows.length}
+                  />
+                  <TableBody>
+                    {stableSort(rows, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        const labelId = `picking-row-${index}`;
+                        return (
+                          <TableRow hover tabIndex={-1} key={row.name}>
+                            <TableCell
+                              component="th"
+                              id={labelId}
+                              scope="row"
+                              padding="none"
+                              align="center"
+                            >
+                              {row.success ? <LockOpenIcon /> : <LockIcon />}
+                            </TableCell>
+                            <TableCell>{row.nickname}</TableCell>
+                            <TableCell>{row.brand}</TableCell>
+                            <TableCell>{row.type}</TableCell>
+                            <TableCell align="right">
+                              {row.time_taken}
+                            </TableCell>
+                            <TableCell
+                              component={Link}
+                              to={{
+                                pathname: `/pickDetails/${row.id}`,
+                              }}
+                            >
+                              {/* {format(row.date, 'PPPP')} */}
+                              {row.date}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
               />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const labelId = `picking-row-${index}`;
-                    return (
-                      <TableRow
-                        hover
-                        tabIndex={-1}
-                        key={row.name}
-                      >
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                          align="center"
-                        >
-                          {row.success ? <LockOpenIcon /> : <LockIcon />}
-                        </TableCell>
-                        <TableCell>{row.nickname}</TableCell>
-                        <TableCell>{row.brand}</TableCell>
-                        <TableCell>{row.type}</TableCell>
-                        <TableCell align="right">{row.time_taken}</TableCell>
-                        <TableCell
-                          component={Link}
-                          to={{
-                            pathname: `/pickDetails/${row.id}`,
-                          }}
-                        >
-                          {/* {format(row.date, 'PPPP')} */}
-                          {row.date}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {/* {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )} */}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+            </div>
+          ) : (
+            <Chart
+              options={opt.options}
+              series={opt.series}
+              type="bar"
+              width="100%"
+              height={500}
+              style={{ margin: 'auto' }}
+            />
+          )}
         </Box>
       </TableContainer>
     </Container>

@@ -29,6 +29,15 @@ function* fetchPickDetails(action) {
   }
 }
 
+function* fetchSuccess(action) {
+  try {
+    const success = yield axios.get(`/pickings/success/${action.payload}`);
+    yield put({ type: 'SET_SUCCESS', payload: success.data });
+  } catch (error) {
+    console.error('success status fetch error', error);
+  }
+}
+
 // post request to add a picking event
 function* postPicking(action) {
   try {
@@ -64,6 +73,7 @@ function* deletePicking(action) {
 function* pickingsSaga() {
   yield takeEvery('FETCH_ALL_PICKINGS', fetchAllPickings);
   yield takeEvery('FETCH_PICKING_DETAILS', fetchPickDetails);
+  yield takeEvery('FETCH_SUCCESS', fetchSuccess);
   yield takeEvery('POST_PICKING', postPicking);
   yield takeEvery('UPDATE_PICKING', updatePicking);
   yield takeEvery('DELETE_PICKING', deletePicking);

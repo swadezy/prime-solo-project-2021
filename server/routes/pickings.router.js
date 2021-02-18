@@ -51,6 +51,27 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+// gets success status for all locks from db
+router.get('/success', rejectUnauthenticated, (req, res) => {
+  console.log('in success get');
+  const queryText = `SELECT "pickings".*, "locks".nickname, "locks".num_pins, "locks".notes AS "lock_notes", "brands".brand, "types".type FROM "pickings"
+  JOIN "locks" ON "pickings".lock_id = "locks".id
+  JOIN "brands" ON "locks".brand_id = "brands".id
+  JOIN "types" ON "locks".type_id = "types".id
+  WHERE "pickings".user_id = $1
+  AND "pickings".id = $2;`;
+  pool
+    .query(queryText, [req.user.id, req.params.id])
+    .then((result) => {
+      console.log('received picking detail', result.rows);
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log('error in fetch picking detail', error);
+      res.sendStatus(500);
+    });
+});
+
 // adds picking event to db
 router.post('/', rejectUnauthenticated, (req, res) => {
   console.log('in post picking, received', req.body);
