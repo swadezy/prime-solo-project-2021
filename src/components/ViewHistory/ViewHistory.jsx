@@ -241,7 +241,7 @@ function ViewHistory() {
   const [opt, setOpt] = useState({
     options: {
       chart: {
-        id: 'picking-bar',
+        id: 'picking-line',
       },
       xaxis: {
         categories: [],
@@ -250,6 +250,7 @@ function ViewHistory() {
     series: [
       {
         name: 'seconds taken',
+        type: 'line',
         data: [],
       },
     ],
@@ -260,7 +261,7 @@ function ViewHistory() {
     const bars = rows.slice(0, 10);
     console.log('sliced this many rows', bars);
     const chartDate = bars.map((bar) => {
-      return bar.date;
+      return new Date(bar.date).toLocaleDateString("en-us");
     });
     const chartTime = bars.map((bar) => {
       return bar.time_taken;
@@ -280,6 +281,9 @@ function ViewHistory() {
           data: chartTime,
         },
       ],
+      markers: {
+        size: 3,
+      },
     });
   };
 
@@ -364,7 +368,7 @@ function ViewHistory() {
                               }}
                             >
                               {/* {format(row.date, 'PPPP')} */}
-                              {row.date}
+                              {new Date(row?.date).toLocaleDateString("en-us")}
                             </TableCell>
                           </TableRow>
                         );
@@ -386,7 +390,7 @@ function ViewHistory() {
             <Chart
               options={opt.options}
               series={opt.series}
-              type="bar"
+              type="line"
               width="100%"
               height={500}
               style={{ margin: 'auto' }}

@@ -56,9 +56,6 @@ function Nav() {
 
           {user.id && (
             <div>
-              <Button component={Link} to="/info" color="inherit">
-                Info
-              </Button>
               <Button component={Link} to="/addLock" color="inherit">
                 Add Lock
               </Button>

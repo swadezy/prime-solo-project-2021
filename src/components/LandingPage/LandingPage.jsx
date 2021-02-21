@@ -20,35 +20,15 @@ function LandingPage() {
       <div className="grid">
         <div className="grid-col grid-col_8">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
-            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
-            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
-            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
-            elementum eget. Praesent efficitur eros vitae nunc interdum, eu
-            interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur.
-            Quisque eget eros metus. Vestibulum bibendum fringilla nibh a
-            luctus. Duis a sapien metus.
+            Welcome to PickLogger - your one stop shop for all your locksport performance tracking needs! Once signed in, you will be able to manage your lock collection and track picking events for each of those locks.
           </p>
 
           <p>
-            Praesent consectetur orci dui, id elementum eros facilisis id. Sed
-            id dolor in augue porttitor faucibus eget sit amet ante. Nunc
-            consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut
-            finibus metus facilisis. Nullam eget lectus non urna rhoncus
-            accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
-            euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed
-            lobortis augue mi vel felis. Duis ultrices sapien at est convallis
-            congue.
+            The hobby of lockpicking, also known as locksport, is the sport or recreation of defeating locking systems. Its enthusiasts learn a variety of skills including lock picking, lock bumping, and a variety of other skills traditionally known only to locksmiths and other security professionals. Locksport followers enjoy the challenge and excitement of learning to defeat all forms of locks, and often gather together in sport groups to share knowledge, exchange ideas, and participate in a variety of recreational activities and contests.
           </p>
 
           <p>
-            Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.
-            Suspendisse posuere dapibus maximus. Aliquam vitae felis libero. In
-            vehicula sapien at semper ultrices. Vivamus sed feugiat libero. Sed
-            sagittis neque id diam euismod, ut egestas felis ultricies. Nullam
-            non fermentum mauris. Sed in enim ac turpis faucibus pretium in sit
-            amet nisi.
+            Resources for learning more about locksport can be found on our About page. The best advice for newcomers - don't buy too much stuff out the get-go, never pick a lock that you don't own, never pick a lock that's currently in use, and of course - try it out! Practice makes perfect in all hobbies, but locksport especially is much more about physically learning the feel of a lock rather than studying theory or design behind locks.
           </p>
         </div>
         <div className="grid-col grid-col_4">
