@@ -141,8 +141,8 @@ function AddLock() {
                   }
                 />
               </Grid>
-
-              <Grid item xs={6} sm={2}>
+              {/* image upload to come in later build */}
+              {/* <Grid item xs={6} sm={2}>
                 <Typography display="inline" variant="h6">
                   Image Upload
                 </Typography>
@@ -157,6 +157,13 @@ function AddLock() {
                     setNewLock({ ...newLock, img_url: event.target.value })
                   }
                 />
+              </Grid> */}
+
+<Grid item xs={6} sm={2}>
+            
+              </Grid>
+              <Grid item xs={6} sm={4}>
+               
               </Grid>
 
               <Grid item xs={12} sm={2}>
