@@ -2,7 +2,18 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import image from '../../images/Abus_Lock.jpg';
+import abus from '../../images/Abus_Lock.jpg';
+import american from '../../images/American_Lock.jpg';
+import brinks from '../../images/Brinks_Lock.jpg';
+import commando from '../../images/Commando_Lock.jpg';
+import kwikset from '../../images/Kwikset_Lock.jpg';
+import master from '../../images/Master_Lock.jpg';
+import other from '../../images/Other_Lock.jpg';
+import sargent from '../../images/Sargent_Lock.jpg';
+import schlage from '../../images/Schlage_Lock.jpg';
+import trubolt from '../../images/Tru-Bolt_Lock.jpg';
+import weiser from '../../images/Weiser_Lock.jpg';
+import yale from '../../images/Yale_Lock.jpg';
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   media: {
-    height: 140,
+    height: 180,
   },
   actions: {
     display: 'flex',
@@ -73,6 +84,128 @@ function LockCard({ lock }) {
     history.push('/viewHistory');
   };
 
+  const HandleImage = ({ brand }) => {
+    switch (brand) {
+      case 'Abus':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={abus}
+          />
+        );
+      case 'American':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={american}
+          />
+        );
+      case 'Brinks':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={brinks}
+          />
+        );
+      case 'Commando':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={commando}
+          />
+        );
+      case 'Kwikset':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={kwikset}
+          />
+        );
+      case 'Master':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={master}
+          />
+        );
+      case 'Other':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={other}
+          />
+        );
+      case 'Sargent':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={sargent}
+          />
+        );
+      case 'Schlage':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={schlage}
+          />
+        );
+      case 'Tru-Bolt':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={trubolt}
+          />
+        );
+      case 'Weiser':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={weiser}
+          />
+        );
+      case 'Yale':
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={yale}
+          />
+        );
+      default:
+        return (
+          <CardMedia
+            component="img"
+            className={classes.media}
+            title={lock.nickname}
+            image={other}
+          />
+        );
+    }
+  };
+
   return (
     <div>
       <Card className={classes.root}>
@@ -87,12 +220,13 @@ function LockCard({ lock }) {
           style={{ position: 'relative' }}
           onClick={handleExpandClick}
         >
-          <CardMedia
+          <HandleImage brand={lock.brand} />
+          {/* <CardMedia
             component="img"
             className={classes.media}
             title={lock.nickname}
-            image={image}
-          />
+            image={lock.brand == 'Master' ? master : other}
+          /> */}
           {
             <LockIcon
               style={{ position: 'absolute', top: '15px', right: '15px' }}
