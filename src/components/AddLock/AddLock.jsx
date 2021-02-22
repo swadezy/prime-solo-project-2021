@@ -159,12 +159,8 @@ function AddLock() {
                 />
               </Grid> */}
 
-<Grid item xs={6} sm={2}>
-            
-              </Grid>
-              <Grid item xs={6} sm={4}>
-               
-              </Grid>
+              <Grid item xs={6} sm={2}></Grid>
+              <Grid item xs={6} sm={4}></Grid>
 
               <Grid item xs={12} sm={2}>
                 <Typography display="inline" variant="h6">
@@ -185,7 +181,13 @@ function AddLock() {
                 />
               </Grid>
               <Grid container item xs={12} sm={6}>
-                <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  fullWidth
+                >
                   Submit
                 </Button>
               </Grid>
