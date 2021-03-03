@@ -2,20 +2,8 @@
 # EDA Project
 This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
-
-## Use the Template for This Repository (Don't Clone)
-
-- Don't Fork or Clone. Instead, click the `Use this Template` button, and make a copy to your personal account.
-
-
-## Prerequisites
-
-Before you get started, make sure you have the following software installed on your computer:
-
-- [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
+## Project Description
+This app was the penultimate project for Prime Academy - a full-stack, full CRUD app deployed via Heroku. Now, before you get any ideas, in terms of shady-ness, the people who enjoy locksport (the hobby of lockpicking) are generally much closer to Rubik’s Cube enthusiasts than they are to the subjects of breaking-and-entering investigations. This app allows a hobbyist lockpicker to track their lock collection, log lockpicking performance, and view their progress over time via sortable tables and charts. The app uses React, Express, and PostgreSQL.
 
 ## Create database and table
 
